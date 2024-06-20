@@ -77,7 +77,7 @@ fn main() {
         .system_tray(tray)
         .on_system_tray_event(on_system_tray_event)
         .invoke_handler(tauri::generate_handler![
-          toggle_ui,
+          hide,
           quit,
         ])
         .setup(|app| {

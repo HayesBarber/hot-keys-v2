@@ -1,8 +1,8 @@
-use crate::utils::{toggle, quit_app};
+use crate::utils::quit_app;
 
 #[tauri::command]
-pub fn toggle_ui(w: tauri::Window) {
-    toggle(w);
+pub fn hide(w: tauri::Window) {
+    let _ = w.hide();
 }
 
 #[tauri::command]
