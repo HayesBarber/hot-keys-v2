@@ -2,16 +2,15 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod models;
+mod ipc;
+mod utils;
 
 use std::process::Command;
 use tauri::{api::process::restart, App, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu};
 use models::HotKeys;
+use ipc::*;
+use utils::{toggle, quit_app};
 use once_cell::sync::Lazy;
-
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 
 static HOT_KEYS: Lazy<HotKeys> = Lazy::new(HotKeys::new);
 
@@ -31,7 +30,7 @@ fn on_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
     SystemTrayEvent::MenuItemClick { id, .. } => {
       match id.as_str() {
         "quit" => {
-            std::process::exit(0);
+          quit_app();
         }
         "restart" => {
             restart(&app.env());
@@ -53,12 +52,7 @@ fn register_global_shortcuts(app: &App) {
 
       match window {
         Some(w) => { 
-          let visible = w.is_visible().unwrap_or(false);
-          if visible {
-            let _ = w.hide();
-          } else {
-            let _ = w.show();
-          }
+          toggle(w);
         },
         None => return,
       }
@@ -82,7 +76,10 @@ fn main() {
     tauri::Builder::default()
         .system_tray(tray)
         .on_system_tray_event(on_system_tray_event)
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![
+          toggle_ui,
+          quit,
+        ])
         .setup(|app| {
           register_global_shortcuts(app);
           Ok(())
