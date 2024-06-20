@@ -3,6 +3,7 @@
 
 mod models;
 
+use std::process::Command;
 use tauri::{api::process::restart, App, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu};
 use models::HotKeys;
 use once_cell::sync::Lazy;
@@ -68,7 +69,7 @@ fn register_global_shortcuts(app: &App) {
     let hot_key = &command.hot_key;
     if hot_key.chars().count() > 0 {
       let _ = global_shortcut_manager.register(hot_key, || {
-        println!("Shortcut triggered!");
+        let _ = Command::new("sh").arg("-c").arg(&command.command).spawn();
       });
     }
   }
