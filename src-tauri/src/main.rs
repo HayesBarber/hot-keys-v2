@@ -79,6 +79,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
           hide,
           quit,
+          get_toggle_ui_accelerator,
+          get_theme,
+          get_commands,
         ])
         .setup(|app| {
           register_global_shortcuts(app);

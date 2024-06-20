@@ -1,4 +1,5 @@
 use serde_json::Value;
+use serde::Serialize;
 use dirs::home_dir;
 use std::{fs::File, io::BufReader};
 
@@ -14,6 +15,12 @@ pub struct CommandModel {
     pub hot_key: String,
     pub display_name: String,
     pub command: String,
+}
+
+#[derive(Serialize, Debug)]
+pub struct ClientCommand {
+    pub hot_key: String,
+    pub display_name: String,
 }
 
 impl HotKeys {
