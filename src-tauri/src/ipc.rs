@@ -1,4 +1,4 @@
-use crate::{models::ClientCommand, utils::quit_app, HOT_KEYS};
+use crate::{models::ClientCommand, utils::{quit_app, spawn_command}, HOT_KEYS};
 
 #[tauri::command]
 pub fn hide(w: tauri::Window) {
@@ -32,4 +32,9 @@ pub fn get_commands() -> Vec<ClientCommand> {
     }
 
     commands
+}
+
+#[tauri::command]
+pub fn command_selected(i: usize) {
+    spawn_command(&HOT_KEYS.commands[i].command)
 }

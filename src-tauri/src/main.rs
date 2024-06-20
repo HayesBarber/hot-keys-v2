@@ -5,11 +5,10 @@ mod models;
 mod ipc;
 mod utils;
 
-use std::process::Command;
 use tauri::{api::process::restart, App, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu};
 use models::HotKeys;
 use ipc::*;
-use utils::{toggle, quit_app};
+use utils::*;
 use once_cell::sync::Lazy;
 
 static HOT_KEYS: Lazy<HotKeys> = Lazy::new(HotKeys::new);
@@ -63,7 +62,7 @@ fn register_global_shortcuts(app: &App) {
     let hot_key = &command.hot_key;
     if hot_key.chars().count() > 0 {
       let _ = global_shortcut_manager.register(hot_key, || {
-        let _ = Command::new("sh").arg("-c").arg(&command.command).spawn();
+        spawn_command(&command.command);
       });
     }
   }
@@ -82,6 +81,7 @@ fn main() {
           get_toggle_ui_accelerator,
           get_theme,
           get_commands,
+          command_selected,
         ])
         .setup(|app| {
           register_global_shortcuts(app);
