@@ -1,3 +1,4 @@
+import Commands from "./components/commands";
 import useAsyncEffect from "./hooks/useAsyncEffect";
 import { GlobalProviderContext, GlobalState } from "./hooks/useGlobalState";
 import useKey from "./hooks/useKey";
@@ -18,7 +19,7 @@ const App: React.FC = () => {
 
   return (
     <GlobalProviderContext.Provider value={value}>
-      <h1>Hot Keys V2</h1>
+      <Commands />
     </GlobalProviderContext.Provider>
   );
 };
