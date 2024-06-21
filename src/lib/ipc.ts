@@ -25,8 +25,8 @@ const Ipc = {
     return commands;
   },
 
-  commandSelected: async (i: number): Promise<void> => {
-    await invoke("command_selected", { i });
+  commandSelected: async (command: ClientCommand): Promise<void> => {
+    await invoke("command_selected", { i: command.index });
   },
 };
 
