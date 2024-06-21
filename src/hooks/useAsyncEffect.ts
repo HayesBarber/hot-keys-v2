@@ -4,7 +4,7 @@ const useAsyncEffect = <T>(fetch: () => Promise<T>, initValue: T) => {
   const [value, setValue] = useState<T>(initValue);
 
   useEffect(() => {
-    async function fetchCommands() {
+    async function fetchValue() {
       try {
         let response = await fetch();
         setValue(response);
@@ -13,7 +13,7 @@ const useAsyncEffect = <T>(fetch: () => Promise<T>, initValue: T) => {
       }
     }
 
-    fetchCommands();
+    fetchValue();
   }, []);
 
   return value;
