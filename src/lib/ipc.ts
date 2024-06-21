@@ -1,27 +1,29 @@
 import { invoke } from "@tauri-apps/api/tauri";
 
 class Ipc {
-  public hide = async () => {
+  public hide = async (): Promise<void> => {
     await invoke("hide");
   };
 
-  public quit = async () => {
+  public quit = async (): Promise<void> => {
     await invoke("quit");
   };
 
-  public getToggleUiAccelerator = async () => {
+  public getToggleUiAccelerator = async (): Promise<string> => {
     const accelerator: string = await invoke("get_toggle_ui_accelerator");
     return accelerator;
   };
 
-  public getTheme = async () => {
+  public getTheme = async (): Promise<string> => {
     const theme: string = await invoke("get_theme");
     return theme;
   };
 
   public getCommands = () => {};
 
-  public commandSelected = () => {};
+  public commandSelected = async (i: number): Promise<void> => {
+    await invoke("command_selected", { i });
+  };
 }
 
 export default Ipc;
