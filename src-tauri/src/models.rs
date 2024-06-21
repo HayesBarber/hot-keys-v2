@@ -21,6 +21,7 @@ pub struct CommandModel {
 pub struct ClientCommand {
     pub hot_key: String,
     pub display_name: String,
+    pub index: i32,
 }
 
 impl HotKeys {

@@ -24,11 +24,16 @@ pub fn get_theme() -> String {
 pub fn get_commands() -> Vec<ClientCommand> {
     let mut commands: Vec<ClientCommand> = vec![];
 
+    let mut i = 0;
+
     for c in &HOT_KEYS.commands {
         commands.push(ClientCommand{
             hot_key: c.hot_key.clone(),
             display_name: c.display_name.clone(),
+            index: i,
         });
+
+        i += 1;
     }
 
     commands
