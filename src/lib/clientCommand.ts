@@ -1,6 +1,6 @@
 interface ClientCommand {
-  hotKey: string;
-  displayName: string;
+  hot_key: string;
+  display_name: string;
   index: number;
 }
 
