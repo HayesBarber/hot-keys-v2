@@ -1,7 +1,7 @@
-interface CommandClient {
+interface ClientCommand {
   hotKey: string;
   displayName: string;
   index: number;
 }
 
-export default CommandClient;
+export default ClientCommand;

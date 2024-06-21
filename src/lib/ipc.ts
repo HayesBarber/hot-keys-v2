@@ -1,4 +1,5 @@
 import { invoke } from "@tauri-apps/api/tauri";
+import ClientCommand from "./clientCommand";
 
 const Ipc = {
   hide: async (): Promise<void> => {
@@ -19,7 +20,10 @@ const Ipc = {
     return theme;
   },
 
-  getCommands: () => {},
+  getCommands: async (): Promise<ClientCommand[]> => {
+    const commands: ClientCommand[] = await invoke("get_commands");
+    return commands;
+  },
 
   commandSelected: async (i: number): Promise<void> => {
     await invoke("command_selected", { i });
