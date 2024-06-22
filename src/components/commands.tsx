@@ -76,11 +76,11 @@ const CommandListItem: React.FC<{
   command: ClientCommand;
   onSelect: (hotKey: ClientCommand) => void;
 }> = ({ command, onSelect }) => {
-  const shortCut = acceleratorToDisplay(command.hot_key);
+  const shortCut = acceleratorToDisplay(command.hotKey);
 
   return (
     <CommandItem onSelect={() => onSelect(command)}>
-      <span>{command.display_name}</span>
+      <span>{command.displayName}</span>
       {shortCut.length ? (
         <CommandShortcut>{shortCut}</CommandShortcut>
       ) : (
