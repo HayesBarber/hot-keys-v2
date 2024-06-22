@@ -5,7 +5,7 @@ mod models;
 mod ipc;
 mod utils;
 
-use tauri::{api::process::restart, App, AppHandle, CustomMenuItem, GlobalShortcutManager, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu};
+use tauri::{api::process::restart, App, AppHandle, CustomMenuItem, GlobalShortcutManager, GlobalWindowEvent, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu};
 use models::HotKeys;
 use ipc::*;
 use utils::*;
@@ -69,6 +69,17 @@ fn register_global_shortcuts(app: &App) {
 
 }
 
+fn on_window_event(event: GlobalWindowEvent) {
+  match event.event() {
+    tauri::WindowEvent::Focused(focused) => {
+      if !focused {
+        let _ = event.window().hide();
+      }
+    },
+    _ => return,
+  }
+}
+
 fn main() {
     let tray = build_menu();
 
@@ -83,6 +94,7 @@ fn main() {
           get_commands,
           command_selected,
         ])
+        .on_window_event(on_window_event)
         .setup(|app| {
           register_global_shortcuts(app);
           Ok(())
