@@ -10,6 +10,7 @@
     "version": "0.0.0"
   },
   "tauri": {
+    "macOSPrivateApi": true,
     "systemTray": {
       "iconPath": "icons/icon.png",
       "iconAsTemplate": true
@@ -26,6 +27,7 @@
         "resizable": false,
         "decorations": false,
         "alwaysOnTop": true,
+        "transparent": true,
         "width": 700,
         "height": 400
       }

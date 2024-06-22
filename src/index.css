@@ -6,7 +6,7 @@
 
 @layer util {
   .window {
-    @apply bg-background flex flex-col h-screen;
+    @apply bg-background flex flex-col h-screen rounded-lg overflow-hidden;
   }
 
   .icon {
@@ -75,14 +75,5 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
