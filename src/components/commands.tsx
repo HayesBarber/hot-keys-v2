@@ -19,10 +19,6 @@ const Commands: React.FC = () => {
   const inputRef = useFocus();
   const { commands, toggleUi } = useGlobalState();
 
-  const onFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    e.target.select();
-  };
-
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
   };
@@ -30,11 +26,7 @@ const Commands: React.FC = () => {
   return (
     <div className="window">
       <CommandComponent className="outline-none focus:outline-none flex flex-col grow">
-        <CommandInput
-          ref={inputRef}
-          onFocus={onFocus}
-          placeholder="Search..."
-        />
+        <CommandInput ref={inputRef} placeholder="Search..." />
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandList className="grow">
           <CommandsList

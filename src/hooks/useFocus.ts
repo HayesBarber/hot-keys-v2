@@ -7,6 +7,7 @@ const useFocus = () => {
     const handleFocus = () => {
       if (inputRef.current) {
         inputRef.current.focus();
+        inputRef.current.select();
       }
     };
 
