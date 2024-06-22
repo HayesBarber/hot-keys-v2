@@ -41,5 +41,10 @@ pub fn get_commands() -> Vec<ClientCommand> {
 
 #[tauri::command]
 pub fn command_selected(i: usize) {
-    spawn_command(&HOT_KEYS.commands[i].command)
+    let command = &HOT_KEYS.commands.get(i);
+
+    match command {
+        Some(c) => spawn_command(&c.command),
+        None => return,
+    };
 }
