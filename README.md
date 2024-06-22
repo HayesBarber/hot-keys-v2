@@ -1,6 +1,6 @@
-<div align="center">
-    <img src="src-tauri/icons/Square310x310Logo.png" alt="Icon"/>
-    <img src="src/assets/ui-image.png" alt="UI" height="300px"/>
+<div align="center" style="display:flex align-items:center justify-content:center">
+    <img src="src-tauri/icons/Square310x310Logo.png" alt="Icon" height="275px"/>
+    <img src="src/assets/ui-image.png" alt="UI" height="275px"/>
 </div>
 
 # Hot-Keys-V2 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/hayesbarber/hot-keys-v2/total)
