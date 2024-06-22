@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer util {
+  .window {
+    @apply bg-background flex flex-col h-screen;
+  }
+
+  .icon {
+    @apply mr-2 h-4 w-4 shrink-0 opacity-50;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
