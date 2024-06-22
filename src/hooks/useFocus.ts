@@ -6,8 +6,8 @@ const useFocus = () => {
   useEffect(() => {
     const handleFocus = () => {
       if (inputRef.current) {
-        inputRef.current.focus();
-        inputRef.current.select();
+        inputRef.current.focus?.();
+        inputRef.current.select?.();
       }
     };
 
