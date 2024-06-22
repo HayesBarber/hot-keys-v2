@@ -96,6 +96,7 @@ fn main() {
         ])
         .on_window_event(on_window_event)
         .setup(|app| {
+          app.set_activation_policy(tauri::ActivationPolicy::Accessory);
           register_global_shortcuts(app);
           Ok(())
         })
