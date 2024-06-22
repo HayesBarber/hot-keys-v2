@@ -5,7 +5,7 @@ pub fn toggle(w: tauri::Window) {
     if visible {
       let _ = w.hide();
     } else {
-      let _ = w.show();
+      let _ = w.set_focus();
     }
 }
 
