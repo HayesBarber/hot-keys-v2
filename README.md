@@ -3,7 +3,7 @@
     <img src="src/assets/ui-image.png" alt="UI" height="275px"/>
 </div>
 
-# Hot-Keys-V2 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/hayesbarber/hot-keys-v2/total)
+# Hot-Keys-V2
 
 ### Map commands to keyboard shortcuts (or execute them throught the UI)
 
