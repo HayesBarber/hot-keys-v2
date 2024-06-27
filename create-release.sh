@@ -64,7 +64,7 @@ if [ "$current_branch" != "main" ]; then
   exit 1
 fi
 
-MAJOR="$major" MINOR="$minor" PATCH="$patch" node bump-version.cjs
+version=$(MAJOR="$major" MINOR="$minor" PATCH="$patch" node bump-version.cjs)
 
 git add .
 git commit -m "Bump version"
