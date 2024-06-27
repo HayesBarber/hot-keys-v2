@@ -1,4 +1,4 @@
-use serde_json::Value;
+use serde_json::{Map, Value};
 use serde::Serialize;
 use dirs::home_dir;
 use std::{fs::File, io::BufReader};
@@ -23,6 +23,38 @@ pub struct ClientCommand {
     pub hot_key: String,
     pub display_name: String,
     pub index: i32,
+}
+
+trait KeyValueAccess {
+    fn get_value(&self, key: &str) -> Option<&Value>;
+}
+
+impl KeyValueAccess for &Value {
+    fn get_value(&self, key: &str) -> Option<&Value> {
+        self.get(key)
+    }
+}
+
+impl KeyValueAccess for &Map<String, Value> {
+    fn get_value(&self, key: &str) -> Option<&Value> {
+        self.get(key)
+    }
+}
+
+fn get_or_default_string<T: KeyValueAccess>(value: T, field: &str, default: &str) -> String {
+    value.get_value(field)
+        .and_then(|v| v.as_str())
+        .unwrap_or(default)
+        .to_string()
+}
+
+macro_rules! get_or_default_string {
+    ($value:expr, $field:expr, $default:expr) => {
+        get_or_default_string($value, $field, $default)
+    };
+    ($value:expr, $field:expr) => {
+        get_or_default_string($value, $field, "")
+    };
 }
 
 impl HotKeys {
@@ -52,18 +84,11 @@ impl HotKeys {
         json
     }
 
-    fn get_or_default_string(value: &Value, field: &str, default: &str) -> String {
-        value.get(field)
-            .and_then(|v| v.as_str())
-            .unwrap_or(default)
-            .to_string()
-    }
-
     pub fn new() -> HotKeys {
         let value = Self::read_hot_keys();
 
-        let theme = Self::get_or_default_string(&value, "theme", "light");
-        let toggle_ui = Self::get_or_default_string(&value, "toggleUI", "");
+        let theme = get_or_default_string!(&value, "theme", "light");
+        let toggle_ui = get_or_default_string!(&value, "toggleUI");
 
         let empty_array: Vec<Value> = vec![];
         let commands = value.get("commands")
@@ -74,20 +99,9 @@ impl HotKeys {
 
         for command_value in commands {
             if let Value::Object(map) = command_value {
-                let hot_key = map.get("hotKey")
-                                    .and_then(|v| v.as_str())
-                                    .unwrap_or("")
-                                    .to_string();
-                    
-                let command = map.get("command")
-                                .and_then(|v| v.as_str())
-                                .unwrap_or("")
-                                .to_string();
-                
-                let display_name = map.get("displayName")
-                                    .and_then(|v| v.as_str())
-                                    .unwrap_or("")
-                                    .to_string();
+                let hot_key = get_or_default_string!(map, "hotKey");
+                let command = get_or_default_string!(map, "command");
+                let display_name = get_or_default_string!(map, "displayName");
 
                 command_models.push(CommandModel { hot_key, display_name, command });
             }
