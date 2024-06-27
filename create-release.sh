@@ -1,9 +1,9 @@
 #!/bin/bash
 
-APPLE_ID=""
-APPLE_TEAM_ID=""
-APPLE_SIGNING_IDENTITY=""
-APPLE_PASSWORD=""
+appleId=""
+appleTeamId=""
+appleSigningIdentity=""
+applePassword=""
 
 usage() {
   echo "Usage: $0 --appleId <appleId> --appleTeamId <appleTeamId> --appleSigningIdentity <appleSigningIdentity> --applePassword <applePassword>"
@@ -13,19 +13,19 @@ usage() {
 while [ $# -gt 0 ]; do
   case "$1" in
     --appleId)
-      APPLE_ID="$2"
+      appleId="$2"
       shift 2
       ;;
     --appleTeamId)
-      APPLE_TEAM_ID="$2"
+      appleTeamId="$2"
       shift 2
       ;;
     --appleSigningIdentity)
-      APPLE_SIGNING_IDENTITY="$2"
+      appleSigningIdentity="$2"
       shift 2
       ;;
     --applePassword)
-      APPLE_PASSWORD="$2"
+      applePassword="$2"
       shift 2
       ;;
     *)
@@ -35,7 +35,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if [ -z "$APPLE_ID" ] || [ -z "$APPLE_TEAM_ID" ] || [ -z "$APPLE_SIGNING_IDENTITY" ] || [ -z "$APPLE_PASSWORD" ]; then
+if [ -z "$appleId" ] || [ -z "$appleTeamId" ] || [ -z "$appleSigningIdentity" ] || [ -z "$applePassword" ]; then
   echo "Error: Missing required arguments."
   usage
 fi
@@ -54,3 +54,5 @@ node bump-version.cjs
 git add .
 git commit -m "Bump version"
 git push origin main
+
+APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build
