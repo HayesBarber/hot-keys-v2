@@ -75,3 +75,5 @@ if [ -d src-tauri/target ]; then
 fi
 
 APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build
+
+gh release create "$version" --notes "$version"
