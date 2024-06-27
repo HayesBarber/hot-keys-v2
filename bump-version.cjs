@@ -1,9 +1,23 @@
-let p = require("./package.json");
+const p = require("./package.json");
 
-let version = p.version.split(".").at(0);
+const parts = p.version.split(".");
 
-version = parseInt(version) + 1;
+const getIndex = () => {
+  if (process.env.MINOR) return 1;
+  if (process.env.PATCH) return 2;
+  return 0;
+};
 
-p.version = `${version}.0.0`;
+const i = getIndex();
+
+parts[i] = parseInt(parts[i]) + 1;
+
+if (i === 0) {
+  for (let index = 1; index < parts.length; index++) {
+    parts[index] = 0;
+  }
+}
+
+p.version = parts.join(".");
 
 require("fs").writeFileSync("package.json", JSON.stringify(p, null, 2));
