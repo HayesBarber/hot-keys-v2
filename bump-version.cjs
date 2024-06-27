@@ -21,3 +21,5 @@ if (i === 0) {
 p.version = parts.join(".");
 
 require("fs").writeFileSync("package.json", JSON.stringify(p, null, 2));
+
+console.log(p.version);
