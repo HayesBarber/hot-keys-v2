@@ -6,8 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "hot-keys-v2",
-    "version": "0.0.0"
+    "productName": "hot-keys-v2"
   },
   "tauri": {
     "macOSPrivateApi": true,
