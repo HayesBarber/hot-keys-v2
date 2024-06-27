@@ -42,6 +42,13 @@ fi
 
 git checkout main
 
+current_branch=$(git branch --show-current)
+
+if [ "$current_branch" != "main" ]; then
+  echo "Unable to checkout main branch"
+  exit 1
+fi
+
 node bump-version.cjs
 
 git add .
