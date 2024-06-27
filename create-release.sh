@@ -70,4 +70,8 @@ git add .
 git commit -m "Bump version"
 git push origin main
 
+if [ -d src-tauri/target ]; then
+  rm -rf src-tauri/target
+fi
+
 APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build
