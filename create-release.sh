@@ -4,14 +4,29 @@ appleId=""
 appleTeamId=""
 appleSigningIdentity=""
 applePassword=""
+major=""
+minor=""
+patch=""
 
 usage() {
-  echo "Usage: $0 --appleId <appleId> --appleTeamId <appleTeamId> --appleSigningIdentity <appleSigningIdentity> --applePassword <applePassword>"
+  echo "Usage: $0 --appleId <appleId> --appleTeamId <appleTeamId> --appleSigningIdentity <appleSigningIdentity> --applePassword <applePassword> --major|--minor|--patch"
   exit 1
 }
 
 while [ $# -gt 0 ]; do
   case "$1" in
+    --major)
+      major="1"
+      shift 1
+      ;;
+    --minor)
+      minor="1"
+      shift 1
+      ;;
+    --patch)
+      patch="1"
+      shift 1
+      ;;
     --appleId)
       appleId="$2"
       shift 2
@@ -49,7 +64,7 @@ if [ "$current_branch" != "main" ]; then
   exit 1
 fi
 
-node bump-version.cjs
+MAJOR="$major" MINOR="$minor" PATCH="$patch" node bump-version.cjs
 
 git add .
 git commit -m "Bump version"
