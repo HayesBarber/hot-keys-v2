@@ -76,4 +76,4 @@ fi
 
 APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build
 
-gh release create "$version" --notes "$version"
+gh release create "$version" ./src-tauri/target/release/bundle/dmg/*.dmg
