@@ -37,13 +37,15 @@ touch hot-keys.json
 code hot-keys.json
 ```
 
-The `commands` field is your hot-keys. The `hotKey` field is optional if you do not want to take up a keyboard shortcut.
+Whenever you edit your `hot-keys.json`, you will need to restart the app for the changes to take effect.
 
 The `theme` field is for the UI-Theme. Options are `light` and `dark`.
 
 The `toggleUI` field is for the showing and hiding the UI.
 
-Whenever you edit your `hot-keys.json`, you will need to restart the app for the changes to take effect.
+The `commands` field is your hot-keys. The `hotKey` field is optional if you do not want to take up a keyboard shortcut, and is represented by a combination of keys separated by the '+' symbol.
+
+I did not have much luck finding tauri documentation for valid key combos, but here seems to be the code to parse an accelerator: https://docs.rs/tao/0.16.9/src/tao/accelerator.rs.html#309
 
 ```json
 {
