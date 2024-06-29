@@ -54,33 +54,30 @@ pub fn command_selected(i: usize) {
 
 #[tauri::command]
 pub fn match_file_paths(base: &str) -> Vec<String> {
-    let base_dir: String = match base.chars().nth(0).unwrap_or_default() {
-        '~' | '/' => {
-            let home_dir = home_dir();
-            
-            match home_dir {
-                Some(home) => {
-                    let mut home_as_string = home.to_str().unwrap_or("").to_string();
-
-                    if home_as_string.is_empty() {
-                        return vec![];
-                    } else {
-                        if !home_as_string.ends_with("/") {
-                            home_as_string.push('/');
-                        }
+    let start = base.chars().nth(0).unwrap_or_default();
+    if start == '~' || start == '/' {
+        return vec![];
+    }
     
-                        // remove the ~ or / to be replaced with home dir
-                        let mut chars = base.chars();
-                        chars.next();
+    let home_dir = home_dir();
+    if home_dir.is_none() {
+        return vec![];
+    }
 
-                        home_as_string + chars.as_str()
-                    }
-                },
-                None => return vec![],
-            }
-        },
-        _ => base.to_string()
-    };
+    let mut home_as_string = home_dir.unwrap().to_str().unwrap_or("").to_string();
+    if home_as_string.is_empty() {
+        return vec![];
+    }
+
+    if !home_as_string.ends_with("/") {
+        home_as_string.push('/');
+    }
+
+    // remove the ~ or / to be replaced with home dir
+    let mut chars = base.chars();
+    chars.next();
+
+    let base_dir: String = home_as_string + chars.as_str();
 
     let pattern = match base_dir.ends_with("/") {
         true => base_dir + "*",
