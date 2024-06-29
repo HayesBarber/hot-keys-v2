@@ -55,7 +55,7 @@ pub fn command_selected(i: usize) {
 #[tauri::command]
 pub fn match_file_paths(base: &str) -> Vec<String> {
     let start = base.chars().nth(0).unwrap_or_default();
-    if start == '~' || start == '/' {
+    if start != '~' && start != '/' {
         return vec![];
     }
     
@@ -77,7 +77,7 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
     let mut chars = base.chars();
     chars.next();
 
-    let base_dir: String = home_as_string + chars.as_str();
+    let base_dir: String = home_as_string.to_string() + chars.as_str();
 
     let pattern = match base_dir.ends_with("/") {
         true => base_dir + "*",
@@ -87,12 +87,12 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
     let entries = glob(pattern.as_str());
 
     match entries {
-        Ok(paths) => string_array_from_paths(paths),
+        Ok(paths) => string_array_from_paths(paths, &home_as_string),
         Err(_) => vec![],
     }
 }
 
-fn string_array_from_paths(paths: Paths) -> Vec<String> {
+fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<String> {
     let mut suggestions: Vec<String> = Vec::new();
 
     for entry in paths {
@@ -100,7 +100,7 @@ fn string_array_from_paths(paths: Paths) -> Vec<String> {
             let as_string = path.to_str();
 
             let value = match as_string {
-                Some(v) => v.to_string() + if path.is_dir() {"/"} else {""},
+                Some(v) => v.to_string().replacen(home_dir, "~/", 1) + if path.is_dir() {"/"} else {""},
                 None => continue,
             }; 
 
