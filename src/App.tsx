@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const value: GlobalState = {
     commands,
     toggleUi,
+    pathMode: false,
   };
 
   return (
