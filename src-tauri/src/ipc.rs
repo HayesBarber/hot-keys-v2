@@ -59,20 +59,20 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
         return vec![];
     }
 
-    let mut home_as_string: String = match home_dir() {
+    let mut home: String = match home_dir() {
         Some(dir) => dir.to_str().unwrap_or("").to_string(),
         None => return vec![],
     };
 
-    if !home_as_string.ends_with("/") {
-        home_as_string.push('/');
+    if !home.ends_with("/") {
+        home.push('/');
     }
 
     // remove the ~ or / to be replaced with home dir
     let mut chars = base.chars();
     chars.next();
 
-    let base_dir: String = home_as_string.to_string() + chars.as_str();
+    let base_dir: String = home.to_string() + chars.as_str();
 
     let pattern = match base_dir.ends_with("/") {
         true => base_dir + "*",
@@ -82,7 +82,7 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
     let entries = glob(pattern.as_str());
 
     match entries {
-        Ok(paths) => string_array_from_paths(paths, &home_as_string),
+        Ok(paths) => string_array_from_paths(paths, &home),
         Err(_) => vec![],
     }
 }
