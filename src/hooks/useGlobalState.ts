@@ -6,6 +6,7 @@ export type GlobalState = {
   commands: ClientCommand[];
   pathMode: boolean;
   setPathMode: (pathMode: boolean) => void;
+  paths: string[];
 };
 
 export const defaultGlobalState: GlobalState = {
@@ -13,6 +14,7 @@ export const defaultGlobalState: GlobalState = {
   commands: [],
   pathMode: false,
   setPathMode: () => null,
+  paths: [],
 };
 
 export const GlobalProviderContext =

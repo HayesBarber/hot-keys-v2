@@ -19,6 +19,7 @@ const App: React.FC = () => {
     toggleUi,
     pathMode,
     setPathMode,
+    paths: [],
   };
 
   return (
