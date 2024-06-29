@@ -85,14 +85,10 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
         return vec![];
     }
 
-    let mut home: String = match get_home_dir() {
+    let home: String = match get_home_dir() {
         Some(dir) => dir,
         None => return vec![],
     };
-
-    if !home.ends_with("/") {
-        home.push('/');
-    }
 
     // remove the ~ or / to be replaced with home dir
     let mut chars = base.chars();

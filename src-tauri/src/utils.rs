@@ -19,7 +19,7 @@ pub fn spawn_command(command: &str) {
 }
 
 pub fn get_home_dir() -> Option<String> {
-  let home: String = match home_dir() {
+  let mut home: String = match home_dir() {
     Some(dir) => dir.to_str().unwrap_or("").to_string(),
     None => "".to_string(),
   };
@@ -27,6 +27,9 @@ pub fn get_home_dir() -> Option<String> {
   if home.is_empty() {
     return None;
   } else {
+    if !home.ends_with("/") {
+      home.push('/');
+    }
     return Some(home);
   }
 }
