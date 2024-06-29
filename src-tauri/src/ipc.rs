@@ -59,11 +59,6 @@ pub fn on_path_selected(path: &str) {
         return;
     }
 
-    let exists = Path::new(path).try_exists().unwrap_or(false);
-    if !exists {
-        return;
-    }
-
     if !path.starts_with("~/") {
         return;
     }
@@ -78,6 +73,11 @@ pub fn on_path_selected(path: &str) {
     }
 
     let actual_path = path.replacen("~/", &home,  1);
+
+    let exists = Path::new(&actual_path).try_exists().unwrap_or(false);
+    if !exists {
+        return;
+    }
 
     let command = HOT_KEYS.on_path_selected.to_string() + " " + &actual_path;
     spawn_command(&command);
