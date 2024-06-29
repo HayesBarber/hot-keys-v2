@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Commands from "./components/commands";
 import useAsyncEffect from "./hooks/useAsyncEffect";
 import { GlobalProviderContext, GlobalState } from "./hooks/useGlobalState";
@@ -11,11 +12,13 @@ const App: React.FC = () => {
   useKey("Escape", () => Ipc.hide());
   const commands = useAsyncEffect(Ipc.getCommands, []);
   const toggleUi = useAsyncEffect(Ipc.getToggleUiAccelerator, "");
+  const [pathMode, setPathMode] = useState(false);
 
   const value: GlobalState = {
     commands,
     toggleUi,
-    pathMode: false,
+    pathMode,
+    setPathMode,
   };
 
   return (

@@ -5,12 +5,14 @@ export type GlobalState = {
   toggleUi: string;
   commands: ClientCommand[];
   pathMode: boolean;
+  setPathMode: (pathMode: boolean) => void;
 };
 
 export const defaultGlobalState: GlobalState = {
   toggleUi: "",
   commands: [],
   pathMode: false,
+  setPathMode: () => null,
 };
 
 export const GlobalProviderContext =
