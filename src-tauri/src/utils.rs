@@ -1,4 +1,5 @@
 use std::process::Command;
+use dirs::home_dir;
 
 pub fn toggle(w: tauri::Window) {
     let visible = w.is_visible().unwrap_or(false);
@@ -15,4 +16,17 @@ pub fn quit_app() {
 
 pub fn spawn_command(command: &str) {
     let _ = Command::new("sh").arg("-c").arg(command).spawn();
+}
+
+pub fn get_home_dir() -> Option<String> {
+  let home: String = match home_dir() {
+    Some(dir) => dir.to_str().unwrap_or("").to_string(),
+    None => "".to_string(),
+  };
+
+  if home.is_empty() {
+    return None;
+  } else {
+    return Some(home);
+  }
 }

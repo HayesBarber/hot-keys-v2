@@ -1,8 +1,7 @@
 use std::path::Path;
-use dirs::home_dir;
 use glob::{glob, Paths};
 
-use crate::{models::ClientCommand, utils::{quit_app, spawn_command}, HOT_KEYS};
+use crate::{models::ClientCommand, utils::{quit_app, spawn_command, get_home_dir}, HOT_KEYS};
 
 #[tauri::command]
 pub fn hide(w: tauri::Window) {
@@ -63,14 +62,10 @@ pub fn on_path_selected(path: &str) {
         return;
     }
 
-    let home: String = match home_dir() {
-        Some(dir) => dir.to_str().unwrap_or("").to_string(),
+    let home = match get_home_dir() {
+        Some(s) => s,
         None => return,
     };
-
-    if home.is_empty() {
-        return;
-    }
 
     let actual_path = path.replacen("~/", &home,  1);
 
@@ -90,14 +85,10 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
         return vec![];
     }
 
-    let mut home: String = match home_dir() {
-        Some(dir) => dir.to_str().unwrap_or("").to_string(),
+    let mut home: String = match get_home_dir() {
+        Some(dir) => dir,
         None => return vec![],
     };
-
-    if home.is_empty() {
-        return vec![];
-    }
 
     if !home.ends_with("/") {
         home.push('/');
