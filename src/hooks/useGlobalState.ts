@@ -7,6 +7,7 @@ export type GlobalState = {
   pathMode: boolean;
   setPathMode: (pathMode: boolean) => void;
   paths: string[];
+  setPaths: (paths: string[]) => void;
 };
 
 export const defaultGlobalState: GlobalState = {
@@ -15,6 +16,7 @@ export const defaultGlobalState: GlobalState = {
   pathMode: false,
   setPathMode: () => null,
   paths: [],
+  setPaths: () => null,
 };
 
 export const GlobalProviderContext =

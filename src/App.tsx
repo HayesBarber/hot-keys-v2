@@ -13,13 +13,15 @@ const App: React.FC = () => {
   const commands = useAsyncEffect(Ipc.getCommands, []);
   const toggleUi = useAsyncEffect(Ipc.getToggleUiAccelerator, "");
   const [pathMode, setPathMode] = useState(false);
+  const [paths, setPaths] = useState<string[]>([]);
 
   const value: GlobalState = {
     commands,
     toggleUi,
     pathMode,
     setPathMode,
-    paths: [],
+    paths,
+    setPaths,
   };
 
   return (
