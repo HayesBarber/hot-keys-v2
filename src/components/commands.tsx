@@ -18,7 +18,8 @@ import useSearchInput from "@/hooks/useSearchInput";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
-  const { commands, toggleUi, pathMode, setPathMode } = useGlobalState();
+  const { commands, toggleUi, pathMode, setPathMode, setPaths } =
+    useGlobalState();
 
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
@@ -31,7 +32,7 @@ const Commands: React.FC = () => {
           ref={inputRef}
           placeholder="Search..."
           onValueChange={(value) =>
-            useSearchInput(value, pathMode, setPathMode)
+            useSearchInput(value, pathMode, setPathMode, setPaths)
           }
         />
         <CommandEmpty>No results found.</CommandEmpty>
