@@ -95,6 +95,10 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
         None => return vec![],
     };
 
+    if home.is_empty() {
+        return vec![];
+    }
+
     if !home.ends_with("/") {
         home.push('/');
     }
