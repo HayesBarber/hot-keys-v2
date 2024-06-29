@@ -54,13 +54,29 @@ pub fn command_selected(i: usize) {
 
 #[tauri::command]
 pub fn match_file_paths(base: &str) -> Vec<String> {
-    let base_dir: String = match base {
-        "~" | "/" => {
+    let base_dir: String = match base.chars().nth(0).unwrap_or_default() {
+        '~' | '/' => {
             let home_dir = home_dir();
             
             match home_dir {
-                Some(home) => home.to_str().unwrap_or("").to_string(),
-                None => "".to_string(),
+                Some(home) => {
+                    let mut home_as_string = home.to_str().unwrap_or("").to_string();
+
+                    if home_as_string.is_empty() {
+                        return vec![];
+                    } else {
+                        if !home_as_string.ends_with("/") {
+                            home_as_string.push('/');
+                        }
+    
+                        // remove the ~ or / to be replaced with home dir
+                        let mut chars = base.chars();
+                        chars.next();
+
+                        home_as_string + chars.as_str()
+                    }
+                },
+                None => return vec![],
             }
         },
         _ => base.to_string()
