@@ -1,3 +1,4 @@
+use std::path::Path;
 use dirs::home_dir;
 use glob::{glob, Paths};
 
@@ -50,6 +51,36 @@ pub fn command_selected(i: usize) {
         Some(c) => spawn_command(&c.command),
         None => return,
     };
+}
+
+#[tauri::command]
+pub fn on_path_selected(path: &str) {
+    if HOT_KEYS.on_path_selected.is_empty() {
+        return;
+    }
+
+    let exists = Path::new(path).try_exists().unwrap_or(false);
+    if !exists {
+        return;
+    }
+
+    if !path.starts_with("~/") {
+        return;
+    }
+
+    let home: String = match home_dir() {
+        Some(dir) => dir.to_str().unwrap_or("").to_string(),
+        None => return,
+    };
+
+    if home.is_empty() {
+        return;
+    }
+
+    let actual_path = path.replacen("~/", &home,  1);
+
+    let command = HOT_KEYS.on_path_selected.to_string() + " " + &actual_path;
+    spawn_command(&command);
 }
 
 #[tauri::command]
