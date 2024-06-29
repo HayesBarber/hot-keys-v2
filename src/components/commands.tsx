@@ -14,10 +14,11 @@ import ClientCommand from "@/lib/clientCommand";
 import Ipc from "@/lib/ipc";
 import { acceleratorToDisplay } from "@/lib/modifierKeyMap";
 import { HorizontalDivider } from "./divider";
+import useSearchInput from "@/hooks/useSearchInput";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
-  const { commands, toggleUi } = useGlobalState();
+  const { commands, toggleUi, pathMode, setPathMode } = useGlobalState();
 
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
@@ -26,7 +27,13 @@ const Commands: React.FC = () => {
   return (
     <div className="window">
       <CommandComponent className="outline-none focus:outline-none flex flex-col grow">
-        <CommandInput ref={inputRef} placeholder="Search..." />
+        <CommandInput
+          ref={inputRef}
+          placeholder="Search..."
+          onValueChange={(value) =>
+            useSearchInput(value, pathMode, setPathMode)
+          }
+        />
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandList className="grow">
           <CommandsList
