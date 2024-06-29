@@ -58,16 +58,11 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
     if start != '~' && start != '/' {
         return vec![];
     }
-    
-    let home_dir = home_dir();
-    if home_dir.is_none() {
-        return vec![];
-    }
 
-    let mut home_as_string = home_dir.unwrap().to_str().unwrap_or("").to_string();
-    if home_as_string.is_empty() {
-        return vec![];
-    }
+    let mut home_as_string: String = match home_dir() {
+        Some(dir) => dir.to_str().unwrap_or("").to_string(),
+        None => return vec![],
+    };
 
     if !home_as_string.ends_with("/") {
         home_as_string.push('/');
