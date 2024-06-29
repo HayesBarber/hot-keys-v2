@@ -10,7 +10,10 @@ const useSearchInput = (
     if (!pathMode) {
       setPathMode(true);
     }
-    Ipc.matchFilePaths(value).then((v) => setPaths(v));
+
+    if (value.endsWith("/") || value === "~") {
+      Ipc.matchFilePaths(value).then((v) => setPaths(v));
+    }
   } else {
     if (pathMode) {
       setPathMode(false);
