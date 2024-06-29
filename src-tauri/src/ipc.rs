@@ -74,7 +74,7 @@ pub fn on_path_selected(path: &str) {
         return;
     }
 
-    let command = HOT_KEYS.on_path_selected.to_string() + " " + &actual_path;
+    let command = HOT_KEYS.on_path_selected.replacen("$PATH", &actual_path,  1);
     spawn_command(&command);
 }
 
