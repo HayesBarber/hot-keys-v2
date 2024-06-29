@@ -29,6 +29,15 @@ const Ipc = {
     invoke("command_selected", { i: command.index });
     Ipc.hide();
   },
+
+  onPathSelected: async (path: string): Promise<void> => {
+    await invoke("on_path_selected", { path });
+  },
+
+  matchFilePaths: async (base: string): Promise<string[]> => {
+    const matches: string[] = await invoke("match_file_paths", { base });
+    return matches;
+  },
 };
 
 export default Ipc;
