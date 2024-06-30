@@ -45,6 +45,11 @@ const Commands: React.FC = () => {
         </CommandList>
       </CommandComponent>
       <FooterMain>
+        {pathMode ? (
+          <FooterButton onClick={() => {}}>Tab to autofill path</FooterButton>
+        ) : (
+          <div></div>
+        )}
         <div className="flex items-center">
           <FooterButton onClick={() => Ipc.hide()}>
             Show/Hide
