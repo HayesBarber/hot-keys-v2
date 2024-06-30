@@ -22,6 +22,7 @@ const Commands: React.FC = () => {
   const { commands, setCommands, toggleUi, pathMode, setPathMode } =
     useGlobalState();
   const [commandValue, setCommandValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
@@ -29,6 +30,11 @@ const Commands: React.FC = () => {
 
   const onCommandValueChange = (v: string) => {
     setCommandValue(v);
+  };
+
+  const onInputValueChange = (v: string) => {
+    useSearchInput(v, pathMode, setPathMode, setCommands);
+    setInputValue(v);
   };
 
   return (
@@ -42,9 +48,8 @@ const Commands: React.FC = () => {
         <CommandInput
           ref={inputRef}
           placeholder="Search..."
-          onValueChange={(value) =>
-            useSearchInput(value, pathMode, setPathMode, setCommands)
-          }
+          value={inputValue}
+          onValueChange={onInputValueChange}
         />
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandList className="grow">
