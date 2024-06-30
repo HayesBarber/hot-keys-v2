@@ -25,8 +25,15 @@ const Ipc = {
     return commands;
   },
 
-  commandSelected: async (command: ClientCommand): Promise<void> => {
-    invoke("command_selected", { i: command.index });
+  commandSelected: async (
+    command: ClientCommand,
+    pathMode: boolean
+  ): Promise<void> => {
+    if (pathMode) {
+      Ipc.onPathSelected(command.displayName);
+    } else {
+      invoke("command_selected", { i: command.index });
+    }
     Ipc.hide();
   },
 

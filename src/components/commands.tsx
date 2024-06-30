@@ -33,7 +33,7 @@ const Commands: React.FC = () => {
   useKey("Tab", onTab, [pathMode, commandValue]);
 
   const onCommandSelected = (command: ClientCommand) => {
-    Ipc.commandSelected(command);
+    Ipc.commandSelected(command, pathMode);
   };
 
   const onCommandValueChange = (v: string) => {
