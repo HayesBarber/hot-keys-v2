@@ -38,6 +38,14 @@ const Ipc = {
     const matches: string[] = await invoke("match_file_paths", { base });
     return matches;
   },
+
+  mapPathsToClientCommands: (paths: string[]): ClientCommand[] => {
+    return paths.map((element, i) => ({
+      hotKey: "",
+      index: i,
+      displayName: element,
+    }));
+  },
 };
 
 export default Ipc;

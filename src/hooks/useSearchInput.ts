@@ -14,11 +14,7 @@ const useSearchInput = (
 
     if (value.endsWith("/") || value === "~") {
       Ipc.matchFilePaths(value).then((v) => {
-        const commands: ClientCommand[] = v.map((element, i) => ({
-          hotKey: "",
-          index: i,
-          displayName: element,
-        }));
+        const commands: ClientCommand[] = Ipc.mapPathsToClientCommands(v);
 
         setCommands(commands);
       });
