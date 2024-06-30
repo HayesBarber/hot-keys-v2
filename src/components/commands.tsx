@@ -90,7 +90,7 @@ const CommandListItem: React.FC<{
 
   return (
     <CommandItem onSelect={() => onSelect(command)}>
-      <span>{command.displayName ?? "No display name found"}</span>
+      <span>{command.displayName}</span>
       {shortCut.length ? (
         <CommandShortcut>{shortCut}</CommandShortcut>
       ) : (
