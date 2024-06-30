@@ -25,25 +25,24 @@ const Commands: React.FC = () => {
   const [commandValue, setCommandValue] = useState("");
   const [inputValue, setInputValue] = useState("");
 
-  const onTab = () => {
-    if (!pathMode) return;
-    setInputValue(commandValue);
-    Ipc.matchFilePaths(commandValue, setCommands);
-  };
-
-  useKey("Tab", onTab, [pathMode, commandValue]);
-
-  const onCommandSelected = (command: ClientCommand) => {
-    Ipc.commandSelected(command, pathMode);
+  const onInputValueChange = (v: string) => {
+    useSearchInput(v, pathMode, setPathMode, setCommands);
+    setInputValue(v);
   };
 
   const onCommandValueChange = (v: string) => {
     setCommandValue(v);
   };
 
-  const onInputValueChange = (v: string) => {
-    useSearchInput(v, pathMode, setPathMode, setCommands);
-    setInputValue(v);
+  const onTab = () => {
+    if (!pathMode) return;
+    onInputValueChange(commandValue);
+  };
+
+  useKey("Tab", onTab, [pathMode, commandValue]);
+
+  const onCommandSelected = (command: ClientCommand) => {
+    Ipc.commandSelected(command, pathMode);
   };
 
   return (
