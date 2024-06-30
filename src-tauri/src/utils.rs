@@ -33,12 +33,13 @@ fn init_home_dir() -> Option<String> {
 
   if home.is_empty() {
     return None;
-  } else {
-    if !home.ends_with("/") {
-      home.push('/');
-    }
-    return Some(home);
   }
+
+  if !home.ends_with("/") {
+    home.push('/');
+  }
+  
+  return Some(home);
 }
 
 pub fn replace_home_dir_with_alias(home_dir: &String, string: &str) -> String {
