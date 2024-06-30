@@ -27,7 +27,10 @@ const Commands: React.FC = () => {
 
   return (
     <div className="window">
-      <CommandComponent className="outline-none focus:outline-none flex flex-col grow">
+      <CommandComponent
+        loop={true}
+        className="outline-none focus:outline-none flex flex-col grow"
+      >
         <CommandInput
           ref={inputRef}
           placeholder="Search..."
