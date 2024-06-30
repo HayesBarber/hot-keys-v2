@@ -72,21 +72,19 @@ const CommandsList: React.FC<{
   pathMode: boolean;
 }> = ({ commands, onCommandSelected, pathMode }) => {
   return (
-    <div>
-      <CommandGroup heading={pathMode ? "Paths" : "Hot-Keys"}>
-        {commands.length ? (
-          commands.map((command, i) => (
-            <CommandListItem
-              key={i}
-              command={command}
-              onSelect={onCommandSelected}
-            />
-          ))
-        ) : (
-          <div />
-        )}
-      </CommandGroup>
-    </div>
+    <CommandGroup heading={pathMode ? "Paths" : "Hot-Keys"}>
+      {commands.length ? (
+        commands.map((command, i) => (
+          <CommandListItem
+            key={i}
+            command={command}
+            onSelect={onCommandSelected}
+          />
+        ))
+      ) : (
+        <div />
+      )}
+    </CommandGroup>
   );
 };
 
