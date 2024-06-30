@@ -1,7 +1,7 @@
 use std::path::Path;
 use glob::{glob, Paths};
 
-use crate::{models::ClientCommand, replace_home_dir, utils::{get_home_dir, quit_app, spawn_command}, HOT_KEYS};
+use crate::{models::ClientCommand, replace_home_dir, strip_home_alias, utils::{get_home_dir, quit_app, spawn_command}, HOT_KEYS};
 
 #[tauri::command]
 pub fn hide(w: tauri::Window) {
@@ -85,14 +85,7 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
         None => return vec![],
     };
 
-    // remove the ~, /, or ~/ to be replaced with home dir
-    let mut chars = base.chars();
-    if base.starts_with("~/") {
-        chars.next();
-        chars.next();
-    } else if base.starts_with("/") ||  base.starts_with("~") {
-        chars.next();
-    }
+    let chars = strip_home_alias(base);
 
     let base_dir: String = home.to_string() + chars.as_str();
 

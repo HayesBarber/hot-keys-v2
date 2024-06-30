@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::{process::Command, str::Chars};
 use dirs::home_dir;
 use once_cell::sync::Lazy;
 
@@ -44,4 +44,16 @@ fn init_home_dir() -> Option<String> {
 pub fn replace_home_dir(home_dir: &String, string: &str) -> String {
   let to = "~/";
   string.replacen(home_dir, to, 1)
+}
+
+pub fn strip_home_alias(path: &str) -> Chars {
+  let mut chars = path.chars();
+  if path.starts_with("~/") {
+      chars.next();
+      chars.next();
+  } else if path.starts_with("/") ||  path.starts_with("~") {
+      chars.next();
+  }
+
+  chars
 }
