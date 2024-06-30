@@ -21,8 +21,8 @@ pub fn spawn_command(command: &str) {
 
 static HOME_DIR: Lazy<Option<String>> = Lazy::new(init_home_dir);
 
-pub fn get_home_dir() -> Option<String> {
-  HOME_DIR.clone()
+pub fn get_home_dir() -> &'static Option<String> {
+  &HOME_DIR
 }
 
 fn init_home_dir() -> Option<String> {

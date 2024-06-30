@@ -66,7 +66,7 @@ pub fn on_path_selected(path: &str) {
         None => return,
     };
 
-    let actual_path = replace_alias_with_home_dir(&home, path);
+    let actual_path = replace_alias_with_home_dir(home, path);
 
     let exists = Path::new(&actual_path).try_exists().unwrap_or(false);
     if !exists {
@@ -79,7 +79,7 @@ pub fn on_path_selected(path: &str) {
 
 #[tauri::command]
 pub fn match_file_paths(base: &str) -> Vec<String> {
-    let home: String = match get_home_dir() {
+    let home = match get_home_dir() {
         Some(dir) => dir,
         None => return vec![],
     };
@@ -96,7 +96,7 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
     let entries = glob(pattern.as_str());
 
     match entries {
-        Ok(paths) => string_array_from_paths(paths, &home),
+        Ok(paths) => string_array_from_paths(paths, home),
         Err(_) => vec![],
     }
 }
