@@ -89,7 +89,7 @@ const CommandListItem: React.FC<{
   const shortCut = acceleratorToDisplay(command.hotKey);
 
   return (
-    <CommandItem onSelect={() => onSelect(command)}>
+    <CommandItem value={command.displayName} onSelect={() => onSelect(command)}>
       <span>{command.displayName}</span>
       {shortCut.length ? (
         <CommandShortcut>{shortCut}</CommandShortcut>
