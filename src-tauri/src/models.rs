@@ -43,10 +43,16 @@ impl KeyValueAccess for &Map<String, Value> {
 }
 
 fn get_or_default_string<T: KeyValueAccess>(value: T, field: &str, default: &str) -> String {
-    value.get_value(field)
+    let result = value.get_value(field)
         .and_then(|v| v.as_str())
         .unwrap_or(default)
-        .to_string()
+        .to_string();
+
+    if result.contains("sudo") {
+        default.to_string()
+    } else {
+        result
+    }
 }
 
 macro_rules! get_or_default_string {
