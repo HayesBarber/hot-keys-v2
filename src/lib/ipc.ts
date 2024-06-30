@@ -41,8 +41,16 @@ const Ipc = {
     await invoke("on_path_selected", { path });
   },
 
-  matchFilePaths: async (base: string): Promise<string[]> => {
+  matchFilePaths: async (
+    base: string,
+    setCommands?: (commands: ClientCommand[]) => void
+  ): Promise<string[]> => {
     const matches: string[] = await invoke("match_file_paths", { base });
+    if (setCommands) {
+      const commands: ClientCommand[] = Ipc.mapPathsToClientCommands(matches);
+      setCommands(commands);
+    }
+
     return matches;
   },
 

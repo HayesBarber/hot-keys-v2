@@ -28,6 +28,7 @@ const Commands: React.FC = () => {
   const onTab = () => {
     if (!pathMode) return;
     setInputValue(commandValue);
+    Ipc.matchFilePaths(commandValue, setCommands);
   };
 
   useKey("Tab", onTab, [pathMode, commandValue]);

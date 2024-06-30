@@ -13,11 +13,7 @@ const useSearchInput = (
     }
 
     if (value.endsWith("/") || value === "~") {
-      Ipc.matchFilePaths(value).then((v) => {
-        const commands: ClientCommand[] = Ipc.mapPathsToClientCommands(v);
-
-        setCommands(commands);
-      });
+      Ipc.matchFilePaths(value, setCommands);
     }
   } else {
     if (pathMode) {
