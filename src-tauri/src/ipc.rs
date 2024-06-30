@@ -1,7 +1,7 @@
 use std::path::Path;
 use glob::{glob, Paths};
 
-use crate::{models::ClientCommand, utils::{quit_app, spawn_command, get_home_dir}, HOT_KEYS};
+use crate::{models::ClientCommand, replace_home_dir, utils::{get_home_dir, quit_app, spawn_command}, HOT_KEYS};
 
 #[tauri::command]
 pub fn hide(w: tauri::Window) {
@@ -90,15 +90,20 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
         None => return vec![],
     };
 
-    // remove the ~ or / to be replaced with home dir
+    // remove the ~, /, or ~/ to be replaced with home dir
     let mut chars = base.chars();
-    chars.next();
+    if base.starts_with("~/") {
+        chars.next();
+        chars.next();
+    } else if base.starts_with("/") ||  base.starts_with("~") {
+        chars.next();
+    }
 
     let base_dir: String = home.to_string() + chars.as_str();
 
     let pattern = match base_dir.ends_with("/") {
         true => base_dir + "*",
-        false => base_dir + "/*",
+        false => base_dir,
     };
 
     let entries = glob(pattern.as_str());
@@ -117,7 +122,7 @@ fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<String> {
             let as_string = path.to_str();
 
             let value = match as_string {
-                Some(v) => v.to_string().replacen(home_dir, "~/", 1) + if path.is_dir() {"/"} else {""},
+                Some(v) => replace_home_dir(home_dir, v) + if path.is_dir() {"/"} else {""},
                 None => continue,
             }; 
 

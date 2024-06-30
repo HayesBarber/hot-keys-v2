@@ -40,3 +40,8 @@ fn init_home_dir() -> Option<String> {
     return Some(home);
   }
 }
+
+pub fn replace_home_dir(home_dir: &String, string: &str) -> String {
+  let to = "~/";
+  string.replacen(home_dir, to, 1)
+}
