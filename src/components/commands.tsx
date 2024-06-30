@@ -15,20 +15,28 @@ import Ipc from "@/lib/ipc";
 import { acceleratorToDisplay } from "@/lib/modifierKeyMap";
 import { HorizontalDivider } from "./divider";
 import useSearchInput from "@/hooks/useSearchInput";
+import { useState } from "react";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
   const { commands, setCommands, toggleUi, pathMode, setPathMode } =
     useGlobalState();
+  const [value, setValue] = useState("");
 
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
+  };
+
+  const onValueChange = (v: string) => {
+    setValue(v);
   };
 
   return (
     <div className="window">
       <CommandComponent
         loop={true}
+        value={value}
+        onValueChange={onValueChange}
         className="outline-none focus:outline-none flex flex-col grow"
       >
         <CommandInput
