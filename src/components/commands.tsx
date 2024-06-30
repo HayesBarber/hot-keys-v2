@@ -46,7 +46,7 @@ const Commands: React.FC = () => {
       </CommandComponent>
       <FooterMain>
         {pathMode ? (
-          <FooterButton onClick={() => {}}>Tab to autofill path</FooterButton>
+          <FooterButton onClick={() => {}}>Autofill: Tab</FooterButton>
         ) : (
           <div></div>
         )}
