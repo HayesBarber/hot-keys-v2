@@ -80,11 +80,6 @@ pub fn on_path_selected(path: &str) {
 
 #[tauri::command]
 pub fn match_file_paths(base: &str) -> Vec<String> {
-    let start = base.chars().nth(0).unwrap_or_default();
-    if start != '~' && start != '/' {
-        return vec![];
-    }
-
     let home: String = match get_home_dir() {
         Some(dir) => dir,
         None => return vec![],
