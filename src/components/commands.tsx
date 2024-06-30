@@ -21,22 +21,22 @@ const Commands: React.FC = () => {
   const inputRef = useFocus();
   const { commands, setCommands, toggleUi, pathMode, setPathMode } =
     useGlobalState();
-  const [value, setValue] = useState("");
+  const [commandValue, setCommandValue] = useState("");
 
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
   };
 
-  const onValueChange = (v: string) => {
-    setValue(v);
+  const onCommandValueChange = (v: string) => {
+    setCommandValue(v);
   };
 
   return (
     <div className="window">
       <CommandComponent
         loop={true}
-        value={value}
-        onValueChange={onValueChange}
+        value={commandValue}
+        onValueChange={onCommandValueChange}
         className="outline-none focus:outline-none flex flex-col grow"
       >
         <CommandInput
