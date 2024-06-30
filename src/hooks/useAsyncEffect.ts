@@ -16,7 +16,7 @@ const useAsyncEffect = <T>(fetch: () => Promise<T>, initValue: T) => {
     fetchValue();
   }, []);
 
-  return value;
+  return { value, setValue };
 };
 
 export default useAsyncEffect;

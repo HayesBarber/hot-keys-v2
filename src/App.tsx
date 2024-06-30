@@ -10,8 +10,8 @@ import Ipc from "./lib/ipc";
 const App: React.FC = () => {
   useTheme();
   useKey("Escape", () => Ipc.hide());
-  const commands = useAsyncEffect(Ipc.getCommands, []);
-  const toggleUi = useAsyncEffect(Ipc.getToggleUiAccelerator, "");
+  const { value: commands } = useAsyncEffect(Ipc.getCommands, []);
+  const { value: toggleUi } = useAsyncEffect(Ipc.getToggleUiAccelerator, "");
   const [pathMode, setPathMode] = useState(false);
   const [paths, setPaths] = useState<string[]>([]);
 
