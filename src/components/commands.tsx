@@ -16,6 +16,7 @@ import { acceleratorToDisplay } from "@/lib/modifierKeyMap";
 import { HorizontalDivider } from "./divider";
 import useSearchInput from "@/hooks/useSearchInput";
 import { useState } from "react";
+import useKey from "@/hooks/useKey";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
@@ -23,6 +24,13 @@ const Commands: React.FC = () => {
     useGlobalState();
   const [commandValue, setCommandValue] = useState("");
   const [inputValue, setInputValue] = useState("");
+
+  const onTab = () => {
+    if (!pathMode) return;
+    setInputValue(commandValue);
+  };
+
+  useKey("Tab", onTab, [pathMode, commandValue]);
 
   const onCommandSelected = (command: ClientCommand) => {
     Ipc.commandSelected(command);
@@ -62,7 +70,7 @@ const Commands: React.FC = () => {
       </CommandComponent>
       <FooterMain>
         {pathMode ? (
-          <FooterButton onClick={() => {}}>Autofill: Tab</FooterButton>
+          <FooterButton onClick={onTab}>Autofill: Tab</FooterButton>
         ) : (
           <div></div>
         )}
