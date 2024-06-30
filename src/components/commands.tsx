@@ -87,7 +87,7 @@ const CommandListItem: React.FC<{
   onSelect: (command: ClientCommand) => void;
 }> = ({ command, onSelect }) => {
   const shortCut = acceleratorToDisplay(command.hotKey);
-  console.log(command.displayName);
+
   return (
     <CommandItem onSelect={() => onSelect(command)}>
       <span>{command.displayName ?? "No display name found"}</span>
