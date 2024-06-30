@@ -1,7 +1,6 @@
 use std::path::Path;
 use glob::{glob, Paths};
-
-use crate::{models::ClientCommand, replace_home_dir, strip_home_alias, utils::{get_home_dir, quit_app, spawn_command}, HOT_KEYS};
+use crate::{models::ClientCommand, utils::*, HOT_KEYS};
 
 #[tauri::command]
 pub fn hide(w: tauri::Window) {
