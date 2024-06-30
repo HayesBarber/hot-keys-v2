@@ -16,6 +16,8 @@ const App: React.FC = () => {
   );
   const { value: toggleUi } = useAsyncEffect(Ipc.getToggleUiAccelerator, "");
   const [pathMode, setPathMode] = useState(false);
+  const [commandValue, setCommandValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   const value: GlobalState = {
     commands,
@@ -23,6 +25,10 @@ const App: React.FC = () => {
     toggleUi,
     pathMode,
     setPathMode,
+    commandValue,
+    setCommandValue,
+    inputValue,
+    setInputValue,
   };
 
   return (

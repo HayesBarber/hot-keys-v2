@@ -7,6 +7,10 @@ export type GlobalState = {
   setCommands: (commands: ClientCommand[]) => void;
   pathMode: boolean;
   setPathMode: (pathMode: boolean) => void;
+  commandValue: string;
+  setCommandValue: (value: string) => void;
+  inputValue: string;
+  setInputValue: (value: string) => void;
 };
 
 export const defaultGlobalState: GlobalState = {
@@ -15,6 +19,10 @@ export const defaultGlobalState: GlobalState = {
   setCommands: () => null,
   pathMode: false,
   setPathMode: () => null,
+  commandValue: "",
+  setCommandValue: () => null,
+  inputValue: "",
+  setInputValue: () => null,
 };
 
 export const GlobalProviderContext =

@@ -15,15 +15,21 @@ import Ipc from "@/lib/ipc";
 import { acceleratorToDisplay } from "@/lib/modifierKeyMap";
 import { HorizontalDivider } from "./divider";
 import useSearchInput from "@/hooks/useSearchInput";
-import { useState } from "react";
 import useKey from "@/hooks/useKey";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
-  const { commands, setCommands, toggleUi, pathMode, setPathMode } =
-    useGlobalState();
-  const [commandValue, setCommandValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
+  const {
+    commands,
+    setCommands,
+    toggleUi,
+    pathMode,
+    setPathMode,
+    commandValue,
+    setCommandValue,
+    inputValue,
+    setInputValue,
+  } = useGlobalState();
 
   const onInputValueChange = (v: string) => {
     useSearchInput(v, pathMode, setPathMode, setCommands);
