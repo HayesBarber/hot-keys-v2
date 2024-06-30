@@ -1,10 +1,11 @@
+import ClientCommand from "@/lib/clientCommand";
 import Ipc from "@/lib/ipc";
 
 const useSearchInput = (
   value: string,
   pathMode: boolean,
   setPathMode: (pathMode: boolean) => void,
-  setPaths: (paths: string[]) => void
+  setCommands: (commands: ClientCommand[]) => void
 ) => {
   if (value.startsWith("~") || value.startsWith("/")) {
     if (!pathMode) {
@@ -12,12 +13,20 @@ const useSearchInput = (
     }
 
     if (value.endsWith("/") || value === "~") {
-      Ipc.matchFilePaths(value).then((v) => setPaths(v));
+      Ipc.matchFilePaths(value).then((v) => {
+        const commands: ClientCommand[] = v.map((element, i) => ({
+          hotKey: "",
+          index: i,
+          displayName: element,
+        }));
+
+        setCommands(commands);
+      });
     }
   } else {
     if (pathMode) {
       setPathMode(false);
-      setPaths([]);
+      Ipc.getCommands().then((value) => setCommands(value));
     }
   }
 };

@@ -18,7 +18,7 @@ import useSearchInput from "@/hooks/useSearchInput";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
-  const { commands, toggleUi, pathMode, setPathMode, setPaths } =
+  const { commands, setCommands, toggleUi, pathMode, setPathMode } =
     useGlobalState();
 
   const onCommandSelected = (command: ClientCommand) => {
@@ -32,7 +32,7 @@ const Commands: React.FC = () => {
           ref={inputRef}
           placeholder="Search..."
           onValueChange={(value) =>
-            useSearchInput(value, pathMode, setPathMode, setPaths)
+            useSearchInput(value, pathMode, setPathMode, setCommands)
           }
         />
         <CommandEmpty>No results found.</CommandEmpty>
@@ -83,11 +83,11 @@ const CommandsList: React.FC<{
 };
 
 const CommandListItem: React.FC<{
-  command: any;
-  onSelect: (command: any) => void;
+  command: ClientCommand;
+  onSelect: (command: ClientCommand) => void;
 }> = ({ command, onSelect }) => {
   const shortCut = acceleratorToDisplay(command.hotKey);
-
+  console.log(command.displayName);
   return (
     <CommandItem onSelect={() => onSelect(command)}>
       <span>{command.displayName ?? "No display name found"}</span>

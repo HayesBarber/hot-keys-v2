@@ -4,19 +4,17 @@ import ClientCommand from "@/lib/clientCommand";
 export type GlobalState = {
   toggleUi: string;
   commands: ClientCommand[];
+  setCommands: (commands: ClientCommand[]) => void;
   pathMode: boolean;
   setPathMode: (pathMode: boolean) => void;
-  paths: string[];
-  setPaths: (paths: string[]) => void;
 };
 
 export const defaultGlobalState: GlobalState = {
   toggleUi: "",
   commands: [],
+  setCommands: () => null,
   pathMode: false,
   setPathMode: () => null,
-  paths: [],
-  setPaths: () => null,
 };
 
 export const GlobalProviderContext =
