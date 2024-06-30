@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 
 const useKey = (key: string, onKey: () => void) => {
-  const escFunction = useCallback((event: KeyboardEvent) => {
+  const keyFunction = useCallback((event: KeyboardEvent) => {
     if (event.key === key) {
       event.preventDefault();
       onKey();
@@ -9,12 +9,12 @@ const useKey = (key: string, onKey: () => void) => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("keydown", escFunction, false);
+    window.addEventListener("keydown", keyFunction, false);
 
     return () => {
-      window.removeEventListener("keydown", escFunction, false);
+      window.removeEventListener("keydown", keyFunction, false);
     };
-  }, [escFunction]);
+  }, [keyFunction]);
 };
 
 export default useKey;
