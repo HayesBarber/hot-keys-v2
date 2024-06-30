@@ -66,7 +66,7 @@ pub fn on_path_selected(path: &str) {
         None => return,
     };
 
-    let actual_path = path.replacen("~/", &home,  1);
+    let actual_path = replace_alias_with_home_dir(&home, path);
 
     let exists = Path::new(&actual_path).try_exists().unwrap_or(false);
     if !exists {
@@ -109,7 +109,7 @@ fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<String> {
             let as_string = path.to_str();
 
             let value = match as_string {
-                Some(v) => replace_home_dir(home_dir, v) + if path.is_dir() {"/"} else {""},
+                Some(v) => replace_home_dir_with_alias(home_dir, v) + if path.is_dir() {"/"} else {""},
                 None => continue,
             }; 
 

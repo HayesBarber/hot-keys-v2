@@ -45,7 +45,7 @@ The `toggleUI` field is for the showing and hiding the UI.
 
 The `onPathSelected` field is a command that will run when a path is selected, replacing occurrences of `$PATH` with the selected path.
 
-Type `~` or `/` to start typing a path.
+Type `~` or `/` to start typing a path. Use `Tab` to autofill.
 
 The `commands` field is your hot-keys. The `hotKey` field is optional if you do not want to take up a keyboard shortcut, and is represented by a combination of keys separated by the '+' symbol.
 

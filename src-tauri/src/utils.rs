@@ -41,9 +41,12 @@ fn init_home_dir() -> Option<String> {
   }
 }
 
-pub fn replace_home_dir(home_dir: &String, string: &str) -> String {
-  let to = "~/";
-  string.replacen(home_dir, to, 1)
+pub fn replace_home_dir_with_alias(home_dir: &String, string: &str) -> String {
+  string.replacen(home_dir, "~/", 1)
+}
+
+pub fn replace_alias_with_home_dir(home_dir: &String, string: &str) -> String {
+  string.replacen("~/", home_dir, 1)
 }
 
 pub fn strip_home_alias(path: &str) -> Chars {
