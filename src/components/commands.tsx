@@ -40,6 +40,7 @@ const Commands: React.FC = () => {
           <CommandsList
             commands={commands}
             onCommandSelected={onCommandSelected}
+            pathMode={pathMode}
           />
         </CommandList>
       </CommandComponent>
@@ -60,10 +61,11 @@ const Commands: React.FC = () => {
 const CommandsList: React.FC<{
   commands: ClientCommand[];
   onCommandSelected: (command: ClientCommand) => void;
-}> = ({ commands, onCommandSelected }) => {
+  pathMode: boolean;
+}> = ({ commands, onCommandSelected, pathMode }) => {
   return (
     <div>
-      <CommandGroup heading="Hot-Keys">
+      <CommandGroup heading={pathMode ? "Paths" : "Hot-Keys"}>
         {commands.length ? (
           commands.map((command, i) => (
             <CommandListItem
