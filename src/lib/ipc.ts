@@ -1,6 +1,8 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import ClientCommand from "./clientCommand";
 
+let commands: ClientCommand[] = [];
+
 const Ipc = {
   hide: async (): Promise<void> => {
     await invoke("hide");
@@ -21,7 +23,11 @@ const Ipc = {
   },
 
   getCommands: async (): Promise<ClientCommand[]> => {
-    const commands: ClientCommand[] = await invoke("get_commands");
+    if (!commands.length) {
+      const result: ClientCommand[] = await invoke("get_commands");
+      commands = result;
+    }
+
     return commands;
   },
 
