@@ -34,7 +34,7 @@ const onSearchInput = (
   if (value.endsWith("/") || value === "~") {
     Ipc.matchFilePaths(value, setCommands);
   } else if (wentBackADirectory(value)) {
-    Ipc.matchFilePaths(value.split("/")[0] ?? "", setCommands);
+    Ipc.matchFilePaths(value.split("/")[0] ?? "/", setCommands);
   }
 };
 
