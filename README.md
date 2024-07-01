@@ -43,6 +43,10 @@ The `theme` field is for the UI-Theme. Options are `light` and `dark`.
 
 The `toggleUI` field is for the showing and hiding the UI.
 
+The `onPathSelected` field is a command that will run when a path is selected, replacing occurrences of `$PATH` with the selected path.
+
+Type `~` or `/` to start typing a path. Use `Tab` to autofill.
+
 The `commands` field is your hot-keys. The `hotKey` field is optional if you do not want to take up a keyboard shortcut, and is represented by a combination of keys separated by the '+' symbol.
 
 I did not have much luck finding tauri documentation for valid key combos, but here seems to be the code to parse an accelerator: https://docs.rs/tao/0.16.9/src/tao/accelerator.rs.html#309
@@ -51,6 +55,7 @@ I did not have much luck finding tauri documentation for valid key combos, but h
 {
   "theme": "light",
   "toggleUI": "Option+Space",
+  "onPathSelected": "code -n $PATH",
   "commands": [
     {
       "hotKey": "Option+Command+P",
@@ -61,10 +66,6 @@ I did not have much luck finding tauri documentation for valid key combos, but h
       "hotKey": "Option+Command+I",
       "command": "osascript -e 'quit app \"safari.app\"'",
       "displayName": "Close Safari"
-    },
-    {
-      "command": "osascript -e 'quit app \"messages.app\"'",
-      "displayName": "Close Messages"
     },
     {
       "command": "code ~/hot-keys.json",

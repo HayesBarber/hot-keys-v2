@@ -93,6 +93,8 @@ fn main() {
           get_theme,
           get_commands,
           command_selected,
+          match_file_paths,
+          on_path_selected,
         ])
         .on_window_event(on_window_event)
         .setup(|app| {

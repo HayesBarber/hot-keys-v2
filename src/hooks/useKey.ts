@@ -1,20 +1,20 @@
 import { useCallback, useEffect } from "react";
 
-const useKey = (key: string, onKey: () => void) => {
-  const escFunction = useCallback((event: KeyboardEvent) => {
+const useKey = (key: string, onKey: () => void, deps: any[] = []) => {
+  const keyFunction = useCallback((event: KeyboardEvent) => {
     if (event.key === key) {
       event.preventDefault();
       onKey();
     }
-  }, []);
+  }, deps);
 
   useEffect(() => {
-    window.addEventListener("keydown", escFunction, false);
+    window.addEventListener("keydown", keyFunction, false);
 
     return () => {
-      window.removeEventListener("keydown", escFunction, false);
+      window.removeEventListener("keydown", keyFunction, false);
     };
-  }, [escFunction]);
+  }, [keyFunction]);
 };
 
 export default useKey;

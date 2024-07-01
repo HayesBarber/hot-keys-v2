@@ -14,28 +14,72 @@ import ClientCommand from "@/lib/clientCommand";
 import Ipc from "@/lib/ipc";
 import { acceleratorToDisplay } from "@/lib/modifierKeyMap";
 import { HorizontalDivider } from "./divider";
+import useSearchInput from "@/hooks/useSearchInput";
+import useKey from "@/hooks/useKey";
 
 const Commands: React.FC = () => {
   const inputRef = useFocus();
-  const { commands, toggleUi } = useGlobalState();
+  const {
+    commands,
+    setCommands,
+    toggleUi,
+    pathMode,
+    setPathMode,
+    commandValue,
+    setCommandValue,
+    inputValue,
+    setInputValue,
+  } = useGlobalState();
+
+  const onInputValueChange = (v: string) => {
+    useSearchInput(v, pathMode, setPathMode, setCommands);
+    setInputValue(v);
+  };
+
+  const onCommandValueChange = (v: string) => {
+    setCommandValue(v);
+  };
+
+  const onTab = () => {
+    if (!pathMode) return;
+    onInputValueChange(commandValue);
+  };
+
+  useKey("Tab", onTab, [pathMode, commandValue]);
 
   const onCommandSelected = (command: ClientCommand) => {
-    Ipc.commandSelected(command);
+    Ipc.commandSelected(command, pathMode);
   };
 
   return (
     <div className="window">
-      <CommandComponent className="outline-none focus:outline-none flex flex-col grow">
-        <CommandInput ref={inputRef} placeholder="Search..." />
+      <CommandComponent
+        loop={true}
+        value={commandValue}
+        onValueChange={onCommandValueChange}
+        className="outline-none focus:outline-none flex flex-col grow"
+      >
+        <CommandInput
+          ref={inputRef}
+          placeholder="Search..."
+          value={inputValue}
+          onValueChange={onInputValueChange}
+        />
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandList className="grow">
           <CommandsList
             commands={commands}
             onCommandSelected={onCommandSelected}
+            pathMode={pathMode}
           />
         </CommandList>
       </CommandComponent>
       <FooterMain>
+        {pathMode ? (
+          <FooterButton onClick={onTab}>Autofill: Tab</FooterButton>
+        ) : (
+          <div></div>
+        )}
         <div className="flex items-center">
           <FooterButton onClick={() => Ipc.hide()}>
             Show/Hide
@@ -52,34 +96,33 @@ const Commands: React.FC = () => {
 const CommandsList: React.FC<{
   commands: ClientCommand[];
   onCommandSelected: (command: ClientCommand) => void;
-}> = ({ commands, onCommandSelected }) => {
+  pathMode: boolean;
+}> = ({ commands, onCommandSelected, pathMode }) => {
   return (
-    <div>
-      <CommandGroup heading="Hot-Keys">
-        {commands.length ? (
-          commands.map((command, i) => (
-            <CommandListItem
-              key={i}
-              command={command}
-              onSelect={onCommandSelected}
-            />
-          ))
-        ) : (
-          <div />
-        )}
-      </CommandGroup>
-    </div>
+    <CommandGroup heading={pathMode ? "Paths" : "Hot-Keys"}>
+      {commands.length ? (
+        commands.map((command, i) => (
+          <CommandListItem
+            key={i}
+            command={command}
+            onSelect={onCommandSelected}
+          />
+        ))
+      ) : (
+        <div />
+      )}
+    </CommandGroup>
   );
 };
 
 const CommandListItem: React.FC<{
   command: ClientCommand;
-  onSelect: (hotKey: ClientCommand) => void;
+  onSelect: (command: ClientCommand) => void;
 }> = ({ command, onSelect }) => {
   const shortCut = acceleratorToDisplay(command.hotKey);
 
   return (
-    <CommandItem onSelect={() => onSelect(command)}>
+    <CommandItem value={command.displayName} onSelect={() => onSelect(command)}>
       <span>{command.displayName}</span>
       {shortCut.length ? (
         <CommandShortcut>{shortCut}</CommandShortcut>

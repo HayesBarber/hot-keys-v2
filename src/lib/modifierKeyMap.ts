@@ -7,7 +7,12 @@ export const modifierKeyMap: Record<string, string> = {
   Function: "Fn",
 };
 
-export const acceleratorToDisplay = (accelerator: string, prefix?: string) => {
+export const acceleratorToDisplay = (
+  accelerator: string,
+  prefix?: string
+): string => {
+  if (!accelerator) return "";
+
   const parts: string[] = accelerator.split("+");
   parts.forEach((part, index, arr) => {
     arr[index] = modifierKeyMap[part] ?? part;

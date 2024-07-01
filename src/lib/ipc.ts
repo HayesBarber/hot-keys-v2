@@ -25,9 +25,41 @@ const Ipc = {
     return commands;
   },
 
-  commandSelected: async (command: ClientCommand): Promise<void> => {
-    invoke("command_selected", { i: command.index });
+  commandSelected: async (
+    command: ClientCommand,
+    pathMode: boolean
+  ): Promise<void> => {
+    if (pathMode) {
+      Ipc.onPathSelected(command.displayName);
+    } else {
+      invoke("command_selected", { i: command.index });
+    }
     Ipc.hide();
+  },
+
+  onPathSelected: async (path: string): Promise<void> => {
+    await invoke("on_path_selected", { path });
+  },
+
+  matchFilePaths: async (
+    base: string,
+    setCommands?: (commands: ClientCommand[]) => void
+  ): Promise<string[]> => {
+    const matches: string[] = await invoke("match_file_paths", { base });
+    if (setCommands) {
+      const commands: ClientCommand[] = Ipc.mapPathsToClientCommands(matches);
+      setCommands(commands);
+    }
+
+    return matches;
+  },
+
+  mapPathsToClientCommands: (paths: string[]): ClientCommand[] => {
+    return paths.map((element, i) => ({
+      hotKey: "",
+      index: i,
+      displayName: element,
+    }));
   },
 };
 

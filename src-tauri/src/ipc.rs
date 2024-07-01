@@ -1,4 +1,6 @@
-use crate::{models::ClientCommand, utils::{quit_app, spawn_command}, HOT_KEYS};
+use std::path::Path;
+use glob::{glob, Paths};
+use crate::{models::ClientCommand, utils::*, HOT_KEYS};
 
 #[tauri::command]
 pub fn hide(w: tauri::Window) {
@@ -47,4 +49,73 @@ pub fn command_selected(i: usize) {
         Some(c) => spawn_command(&c.command),
         None => return,
     };
+}
+
+#[tauri::command]
+pub fn on_path_selected(path: &str) {
+    if HOT_KEYS.on_path_selected.is_empty() {
+        return;
+    }
+
+    if !path.starts_with("~/") {
+        return;
+    }
+
+    let home = match get_home_dir() {
+        Some(s) => s,
+        None => return,
+    };
+
+    let actual_path = replace_alias_with_home_dir(home, path);
+
+    let exists = Path::new(&actual_path).try_exists().unwrap_or(false);
+    if !exists {
+        return;
+    }
+
+    let command = HOT_KEYS.on_path_selected.replace("$PATH", &actual_path);
+    spawn_command(&command);
+}
+
+#[tauri::command]
+pub fn match_file_paths(base: &str) -> Vec<String> {
+    let home = match get_home_dir() {
+        Some(dir) => dir,
+        None => return vec![],
+    };
+
+    let chars = strip_home_alias(base);
+
+    let base_dir: String = home.to_string() + chars.as_str();
+
+    let pattern = match base_dir.ends_with("/") {
+        true => base_dir + "*",
+        false => base_dir,
+    };
+
+    let entries = glob(pattern.as_str());
+
+    match entries {
+        Ok(paths) => string_array_from_paths(paths, home),
+        Err(_) => vec![],
+    }
+}
+
+fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<String> {
+    let mut suggestions: Vec<String> = Vec::new();
+
+    for entry in paths {
+        if let Ok(path) = entry {
+            let as_string = path.to_str();
+
+            let value = match as_string {
+                Some(v) => replace_home_dir_with_alias(home_dir, v) + if path.is_dir() {"/"} else {""},
+                None => continue,
+            }; 
+
+            suggestions.push(value);
+        }
+    }
+
+    suggestions
 }
