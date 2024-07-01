@@ -42,12 +42,12 @@ fn init_home_dir() -> Option<String> {
   return Some(home);
 }
 
-pub fn replace_home_dir_with_alias(home_dir: &String, string: &str) -> String {
-  string.replacen(home_dir, "~/", 1)
+pub fn replace_home_dir_with_alias(home_dir: &String, path: &str) -> String {
+  path.replacen(home_dir, "~/", 1)
 }
 
-pub fn replace_alias_with_home_dir(home_dir: &String, string: &str) -> String {
-  string.replacen("~/", home_dir, 1)
+pub fn replace_alias_with_home_dir(home_dir: &String, path: &str) -> String {
+  path.replacen("~/", home_dir, 1)
 }
 
 pub fn strip_home_alias(path: &str) -> Chars {
