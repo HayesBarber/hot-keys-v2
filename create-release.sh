@@ -88,7 +88,6 @@ if [ -d src-tauri/target ]; then
   rm -rf src-tauri/target
 fi
 
-
 APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build -- --target aarch64-apple-darwin
 
 APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build -- --target x86_64-apple-darwin
