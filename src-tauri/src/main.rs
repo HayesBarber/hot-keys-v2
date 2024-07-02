@@ -81,6 +81,8 @@ fn on_window_event(event: GlobalWindowEvent) {
 }
 
 fn main() {
+    let _ = fix_path_env::fix();
+
     let tray = build_menu();
 
     tauri::Builder::default()

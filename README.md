@@ -77,6 +77,8 @@ I did not have much luck finding tauri documentation for valid key combos, but h
 
 ### A note on $PATH
 
+**_This shouldn't be necessary anymore with the addition of [fix-path-env](https://github.com/tauri-apps/fix-path-env-rs) but leaving for documentation_**
+
 If a command is not working, it may be due to `command not found`.
 
 Try specifying the path to the command.
