@@ -65,7 +65,7 @@ fi
 source .env
 
 for target in aarch64-apple-darwin x86_64-apple-darwin; do
-  npm run tauri build -- --target "$target"
+  APPLE_ID="$APPLE_ID" APPLE_TEAM_ID="$APPLE_TEAM_ID" APPLE_SIGNING_IDENTITY="$APPLE_SIGNING_IDENTITY" APPLE_PASSWORD="$APPLE_PASSWORD" npm run tauri build -- --target "$target"
 done
 
 releaseArgs=("$version" --notes "$notes")
