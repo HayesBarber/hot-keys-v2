@@ -1,19 +1,10 @@
 #!/bin/bash
 
-appleId=""
-appleTeamId=""
-appleSigningIdentity=""
-applePassword=""
 major=""
 minor=""
 patch=""
 prerelease=""
 notes=""
-
-usage() {
-  echo "Usage: $0 --appleId <appleId> --appleTeamId <appleTeamId> --appleSigningIdentity <appleSigningIdentity> --applePassword <applePassword> --notes <notes> --major|--minor|--patch --prerelease"
-  exit 1
-}
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -33,22 +24,6 @@ while [ $# -gt 0 ]; do
       prerelease="--prerelease"
       shift 1
       ;;
-    --appleId)
-      appleId="$2"
-      shift 2
-      ;;
-    --appleTeamId)
-      appleTeamId="$2"
-      shift 2
-      ;;
-    --appleSigningIdentity)
-      appleSigningIdentity="$2"
-      shift 2
-      ;;
-    --applePassword)
-      applePassword="$2"
-      shift 2
-      ;;
     --notes)
       notes="$2"
       shift 2
@@ -60,9 +35,8 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if [ -z "$appleId" ] || [ -z "$appleTeamId" ] || [ -z "$appleSigningIdentity" ] || [ -z "$applePassword" ]; then
-  echo "Error: Missing required arguments."
-  usage
+if [ ! -f .env ] || [ ! -r .env ]; then
+  echo "Error: Missing .env or it is not readable"
 fi
 
 git checkout main
@@ -88,8 +62,10 @@ if [ -d src-tauri/target ]; then
   rm -rf src-tauri/target
 fi
 
+source .env
+
 for target in aarch64-apple-darwin x86_64-apple-darwin; do
-  APPLE_ID="$appleId" APPLE_TEAM_ID="$appleTeamId" APPLE_SIGNING_IDENTITY="$appleSigningIdentity" APPLE_PASSWORD="$applePassword" npm run tauri build -- --target "$target"
+  npm run tauri build -- --target "$target"
 done
 
 releaseArgs=("$version" --notes "$notes")
