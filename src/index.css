@@ -48,13 +48,15 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    color-scheme: dark;
+
+    --background: 0, 0%, 11%;
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
+    --card: 0, 0%, 11%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 0, 0%, 11%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 0 0% 98%;
