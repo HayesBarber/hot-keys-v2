@@ -4,10 +4,8 @@ import { CommandShortcut } from "./command";
 
 export const FooterMain: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="px-2">
-      <div className="flex justify-between items-center border-t h-[45px] bg-background">
-        {children}
-      </div>
+    <div className="flex justify-between items-center border-t border-accent h-[45px] bg-background">
+      {children}
     </div>
   );
 };
