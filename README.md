@@ -47,6 +47,8 @@ The `onPathSelected` field is a command that will run when a path is selected, r
 
 Type `~` or `/` to start typing a path. Use `Tab` to autofill.
 
+Your home directory will act as the base for this feature.
+
 The `commands` field is your hot-keys. The `hotKey` field is optional if you do not want to take up a keyboard shortcut, and is represented by a combination of keys separated by the '+' symbol.
 
 I did not have much luck finding tauri documentation for valid key combos, but here seems to be the code to parse an accelerator: https://docs.rs/tao/0.16.9/src/tao/accelerator.rs.html#309
