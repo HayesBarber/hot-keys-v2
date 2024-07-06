@@ -1,4 +1,4 @@
-use std::{process::Command, str::Chars};
+use std::process::Command;
 use dirs::home_dir;
 use once_cell::sync::Lazy;
 
@@ -46,7 +46,7 @@ pub fn replace_home_dir_with_alias(home_dir: &String, path: &str) -> String {
   path.replacen(home_dir, "~/", 1)
 }
 
-pub fn strip_home_alias(path: &str) -> Chars {
+pub fn strip_home_alias(path: &str) -> &str {
   let mut chars = path.chars();
   if path.starts_with("~/") {
       chars.next();
@@ -55,5 +55,5 @@ pub fn strip_home_alias(path: &str) -> Chars {
       chars.next();
   }
 
-  chars
+  chars.as_str()
 }

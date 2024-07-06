@@ -90,9 +90,9 @@ pub fn match_file_paths(base: &str) -> Vec<ClientCommand> {
         None => return vec![],
     };
 
-    let chars = strip_home_alias(base);
+    let stripped = strip_home_alias(base);
 
-    let base_dir: String = home.to_string() + chars.as_str();
+    let base_dir: String = home.to_string() + stripped;
 
     let pattern = match base_dir.ends_with("/") {
         true => base_dir + "*",
