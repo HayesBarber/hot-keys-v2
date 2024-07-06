@@ -52,7 +52,7 @@ pub fn command_selected(i: usize) {
     };
 }
 
-static PATHS: Lazy<Mutex<Vec<String>>> = Lazy::new(|| Mutex::new(vec![String::new(); 20]));
+static PATHS: Lazy<Mutex<Vec<String>>> = Lazy::new(|| Mutex::new(vec![]));
 
 #[tauri::command]
 pub fn on_path_selected(i: usize) {
