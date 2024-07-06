@@ -55,7 +55,7 @@ I did not have much luck finding tauri documentation for valid key combos, but h
 {
   "theme": "light",
   "toggleUI": "Option+Space",
-  "onPathSelected": "code -n $PATH",
+  "onPathSelected": "code -n \"$PATH\"",
   "commands": [
     {
       "hotKey": "Option+Command+P",
