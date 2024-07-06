@@ -2,6 +2,8 @@ use std::{path::{Path, PathBuf}, process::Command};
 use dirs::home_dir;
 use once_cell::sync::Lazy;
 
+use crate::HOT_KEYS;
+
 pub fn toggle(w: tauri::Window) {
     let visible = w.is_visible().unwrap_or(false);
     if visible {
@@ -17,6 +19,10 @@ pub fn quit_app() {
 
 pub fn spawn_command(command: &str) {
     let _ = Command::new("sh").arg("-c").arg(command).spawn();
+}
+
+pub fn on_path_selected_is_empty() -> bool {
+  HOT_KEYS.on_path_selected.is_empty()
 }
 
 static HOME_DIR: Lazy<Option<(PathBuf, String)>> = Lazy::new(init_home_dir);
