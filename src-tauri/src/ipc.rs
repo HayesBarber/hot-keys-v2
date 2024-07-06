@@ -1,5 +1,6 @@
-use std::path::Path;
+use std::{path::Path, sync::Mutex};
 use glob::{glob, Paths};
+use once_cell::sync::Lazy;
 use crate::{models::ClientCommand, utils::*, HOT_KEYS};
 
 #[tauri::command]
@@ -51,6 +52,8 @@ pub fn command_selected(i: usize) {
     };
 }
 
+static PATHS: Lazy<Mutex<Vec<String>>> = Lazy::new(|| Mutex::new(Vec::new()));
+
 #[tauri::command]
 pub fn on_path_selected(path: &str) {
     if HOT_KEYS.on_path_selected.is_empty() {
@@ -95,9 +98,19 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
 
     let entries = glob(pattern.as_str());
 
-    match entries {
+    let paths = match entries {
         Ok(paths) => string_array_from_paths(paths, home),
         Err(_) => vec![],
+    };
+
+    let vec = PATHS.lock();
+
+    match vec {
+        Ok(mut v) => {
+            *v = paths;
+            return  v.to_vec();
+        },
+        Err(_) => return vec![],
     }
 }
 
