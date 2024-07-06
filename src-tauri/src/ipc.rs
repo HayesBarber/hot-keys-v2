@@ -84,25 +84,25 @@ pub fn on_path_selected(i: usize) {
 }
 
 #[tauri::command]
-pub fn match_file_paths(base: &str) -> Vec<ClientCommand> {
+pub fn match_file_paths(path: &str) -> Vec<ClientCommand> {
     let home = match get_home_dir() {
         Some(dir) => dir,
         None => return vec![],
     };
 
-    let stripped = strip_home_alias(base);
-
-    let base_dir: String = home.to_string() + stripped;
-
-    let pattern = match base_dir.ends_with("/") {
-        true => base_dir + "*",
-        false => base_dir,
+    let sanitized_base = match sanitize_path(path, &home.0) {
+        Some(path) => path,
+        None => return vec![],
     };
+
+    let base_dir = sanitized_base.to_string_lossy().to_string();
+
+    let pattern = base_dir + "/*";
 
     let entries = glob(pattern.as_str());
 
     match entries {
-        Ok(paths) => client_commands_from_paths(paths, home),
+        Ok(paths) => client_commands_from_paths(paths, &home.1),
         Err(_) => vec![],
     }
 }

@@ -48,10 +48,10 @@ const Ipc = {
   },
 
   matchFilePaths: async (
-    base: string,
+    path: string,
     setCommands: (commands: ClientCommand[]) => void
   ): Promise<void> => {
-    const matches: ClientCommand[] = await invoke("match_file_paths", { base });
+    const matches: ClientCommand[] = await invoke("match_file_paths", { path });
     setCommands(matches);
   },
 };
