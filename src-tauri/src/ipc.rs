@@ -1,4 +1,4 @@
-use std::{path::Path, sync::Mutex};
+use std::sync::Mutex;
 use glob::{glob, Paths};
 use once_cell::sync::Lazy;
 use crate::{models::ClientCommand, utils::*, HOT_KEYS};
@@ -73,11 +73,6 @@ pub fn on_path_selected(i: usize) {
         Some(p) => p,
         None => return,
     };
-
-    let exists = Path::new(&path).try_exists().unwrap_or(false);
-    if !exists {
-        return;
-    }
 
     let command = HOT_KEYS.on_path_selected.replace("$PATH", &path);
     spawn_command(&command);
