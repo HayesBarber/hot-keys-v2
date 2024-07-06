@@ -18,7 +18,7 @@ pub struct CommandModel {
     pub command: String,
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ClientCommand {
     pub hot_key: String,
