@@ -52,7 +52,7 @@ pub fn command_selected(i: usize) {
     };
 }
 
-static PATHS: Lazy<Mutex<Vec<String>>> = Lazy::new(|| Mutex::new(Vec::new()));
+static PATHS: Lazy<Mutex<Vec<ClientCommand>>> = Lazy::new(|| Mutex::new(Vec::new()));
 
 #[tauri::command]
 pub fn on_path_selected(path: &str) {
@@ -81,7 +81,7 @@ pub fn on_path_selected(path: &str) {
 }
 
 #[tauri::command]
-pub fn match_file_paths(base: &str) -> Vec<String> {
+pub fn match_file_paths(base: &str) -> Vec<ClientCommand> {
     let home = match get_home_dir() {
         Some(dir) => dir,
         None => return vec![],
@@ -114,8 +114,10 @@ pub fn match_file_paths(base: &str) -> Vec<String> {
     }
 }
 
-fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<String> {
-    let mut suggestions: Vec<String> = Vec::new();
+fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<ClientCommand> {
+    let mut suggestions: Vec<ClientCommand> = Vec::new();
+
+    let mut i = 0;
 
     for entry in paths {
         if let Ok(path) = entry {
@@ -124,9 +126,17 @@ fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<String> {
             let value = match as_string {
                 Some(v) => replace_home_dir_with_alias(home_dir, v) + if path.is_dir() {"/"} else {""},
                 None => continue,
-            }; 
+            };
 
-            suggestions.push(value);
+            let client_command = ClientCommand {
+                hot_key: String::new(),
+                display_name: value,
+                index: i,
+            };
+
+            suggestions.push(client_command);
+
+            i += 1;
         }
     }
 
