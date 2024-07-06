@@ -55,21 +55,31 @@ pub fn command_selected(i: usize) {
 static PATHS: Lazy<Mutex<Vec<ClientCommand>>> = Lazy::new(|| Mutex::new(Vec::new()));
 
 #[tauri::command]
-pub fn on_path_selected(path: &str) {
+pub fn on_path_selected(i: usize) {
     if HOT_KEYS.on_path_selected.is_empty() {
         return;
     }
 
-    if !path.starts_with("~/") {
-        return;
-    }
+    let selected_path = {
+        let lock = PATHS.lock();
+        
+        match lock {
+            Ok(v) => v.get(i).map(|p| p.display_name.clone()),
+            Err(_) => return,
+        }
+    };
+
+    let path = match selected_path {
+        Some(p) => p,
+        None => return,
+    };
 
     let home = match get_home_dir() {
         Some(s) => s,
         None => return,
     };
 
-    let actual_path = replace_alias_with_home_dir(home, path);
+    let actual_path = replace_alias_with_home_dir(home, &path);
 
     let exists = Path::new(&actual_path).try_exists().unwrap_or(false);
     if !exists {
