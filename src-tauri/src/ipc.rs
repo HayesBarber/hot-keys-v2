@@ -56,7 +56,7 @@ static PATHS: Lazy<Mutex<Vec<String>>> = Lazy::new(|| Mutex::new(vec![]));
 
 #[tauri::command]
 pub fn on_path_selected(i: usize) {
-    if on_path_selected_is_empty() {
+    if *PATH_SELECTED_EMPTY {
         return;
     }
 
@@ -80,7 +80,7 @@ pub fn on_path_selected(i: usize) {
 
 #[tauri::command]
 pub fn match_file_paths(path: &str) -> Vec<ClientCommand> {
-    if on_path_selected_is_empty() {
+    if *PATH_SELECTED_EMPTY {
         return vec![];
     }
 

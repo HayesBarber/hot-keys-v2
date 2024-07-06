@@ -21,7 +21,9 @@ pub fn spawn_command(command: &str) {
     let _ = Command::new("sh").arg("-c").arg(command).spawn();
 }
 
-pub fn on_path_selected_is_empty() -> bool {
+pub static PATH_SELECTED_EMPTY: Lazy<bool> = Lazy::new(on_path_selected_is_empty);
+
+fn on_path_selected_is_empty() -> bool {
   HOT_KEYS.on_path_selected.is_empty()
 }
 
