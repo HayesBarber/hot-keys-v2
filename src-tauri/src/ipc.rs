@@ -97,7 +97,10 @@ pub fn match_file_paths(path: &str) -> Vec<ClientCommand> {
 
     let base_dir = sanitized_base.to_string_lossy().to_string();
 
-    let pattern = base_dir + "/*";
+    let pattern = match base_dir.ends_with("/") {
+        true => base_dir + "*",
+        false => base_dir + "/*",
+    };
 
     let entries = glob(pattern.as_str());
 
