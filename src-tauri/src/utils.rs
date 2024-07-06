@@ -76,7 +76,7 @@ pub fn sanitize_path(input: &str, base_dir: &Path) -> Option<PathBuf> {
 
   match combined_path.canonicalize() {
       Ok(canonical_path) => {
-          if canonical_path.starts_with(base_dir) {
+          if canonical_path.starts_with(base_dir) && canonical_path.try_exists().unwrap_or(false) {
               Some(canonical_path)
           } else {
               None
