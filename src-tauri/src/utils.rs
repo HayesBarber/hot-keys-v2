@@ -1,6 +1,8 @@
-use std::{process::Command, str::Chars};
+use std::{path::{Path, PathBuf}, process::Command};
 use dirs::home_dir;
 use once_cell::sync::Lazy;
+
+use crate::HOT_KEYS;
 
 pub fn toggle(w: tauri::Window) {
     let visible = w.is_visible().unwrap_or(false);
@@ -19,38 +21,45 @@ pub fn spawn_command(command: &str) {
     let _ = Command::new("sh").arg("-c").arg(command).spawn();
 }
 
-static HOME_DIR: Lazy<Option<String>> = Lazy::new(init_home_dir);
+pub static PATH_SELECTED_EMPTY: Lazy<bool> = Lazy::new(on_path_selected_is_empty);
 
-pub fn get_home_dir() -> &'static Option<String> {
+fn on_path_selected_is_empty() -> bool {
+  HOT_KEYS.on_path_selected.is_empty()
+}
+
+static HOME_DIR: Lazy<Option<(PathBuf, String)>> = Lazy::new(init_home_dir);
+
+pub fn get_home_dir() -> &'static Option<(PathBuf, String)> {
   &HOME_DIR
 }
 
-fn init_home_dir() -> Option<String> {
-  let mut home: String = match home_dir() {
-    Some(dir) => dir.to_str().unwrap_or("").to_string(),
-    None => "".to_string(),
+fn init_home_dir() -> Option<(PathBuf, String)> {
+  let home = match home_dir() {
+    Some(dir) => dir,
+    None => return None,
   };
 
-  if home.is_empty() {
+  let mut home_as_string = match home.to_str() {
+    Some(s) => s.to_string(),
+    None => return None,
+  };
+
+  if home_as_string.is_empty() {
     return None;
   }
 
-  if !home.ends_with("/") {
-    home.push('/');
+  if !home_as_string.ends_with("/") {
+    home_as_string.push('/');
   }
   
-  return Some(home);
+  Some((home, home_as_string))
 }
 
 pub fn replace_home_dir_with_alias(home_dir: &String, path: &str) -> String {
   path.replacen(home_dir, "~/", 1)
 }
 
-pub fn replace_alias_with_home_dir(home_dir: &String, path: &str) -> String {
-  path.replacen("~/", home_dir, 1)
-}
-
-pub fn strip_home_alias(path: &str) -> Chars {
+pub fn strip_home_alias(path: &str) -> &str {
   let mut chars = path.chars();
   if path.starts_with("~/") {
       chars.next();
@@ -59,5 +68,20 @@ pub fn strip_home_alias(path: &str) -> Chars {
       chars.next();
   }
 
-  chars
+  chars.as_str()
+}
+
+pub fn sanitize_path(input: &str, base_dir: &Path) -> Option<PathBuf> {
+  let combined_path = base_dir.join(strip_home_alias(input));
+
+  match combined_path.canonicalize() {
+      Ok(canonical_path) => {
+          if canonical_path.starts_with(base_dir) && canonical_path.try_exists().unwrap_or(false) {
+              Some(canonical_path)
+          } else {
+              None
+          }
+      }
+      Err(_) => None,
+  }
 }

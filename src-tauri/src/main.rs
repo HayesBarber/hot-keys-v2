@@ -105,5 +105,5 @@ fn main() {
           Ok(())
         })
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("Error running Hot-Keys-V2");
 }

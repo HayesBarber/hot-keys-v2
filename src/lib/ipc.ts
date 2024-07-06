@@ -36,36 +36,23 @@ const Ipc = {
     pathMode: boolean
   ): Promise<void> => {
     if (pathMode) {
-      Ipc.onPathSelected(command.displayName);
+      Ipc.onPathSelected(command);
     } else {
       invoke("command_selected", { i: command.index });
     }
     Ipc.hide();
   },
 
-  onPathSelected: async (path: string): Promise<void> => {
-    await invoke("on_path_selected", { path });
+  onPathSelected: async (command: ClientCommand): Promise<void> => {
+    await invoke("on_path_selected", { i: command.index });
   },
 
   matchFilePaths: async (
-    base: string,
-    setCommands?: (commands: ClientCommand[]) => void
-  ): Promise<string[]> => {
-    const matches: string[] = await invoke("match_file_paths", { base });
-    if (setCommands) {
-      const commands: ClientCommand[] = Ipc.mapPathsToClientCommands(matches);
-      setCommands(commands);
-    }
-
-    return matches;
-  },
-
-  mapPathsToClientCommands: (paths: string[]): ClientCommand[] => {
-    return paths.map((element, i) => ({
-      hotKey: "",
-      index: i,
-      displayName: element,
-    }));
+    path: string,
+    setCommands: (commands: ClientCommand[]) => void
+  ): Promise<void> => {
+    const matches: ClientCommand[] = await invoke("match_file_paths", { path });
+    setCommands(matches);
   },
 };
 
