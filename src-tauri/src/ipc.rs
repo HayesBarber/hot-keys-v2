@@ -52,7 +52,7 @@ pub fn command_selected(i: usize) {
     };
 }
 
-static PATHS: Lazy<Mutex<Vec<ClientCommand>>> = Lazy::new(|| Mutex::new(Vec::new()));
+static PATHS: Lazy<Mutex<Vec<String>>> = Lazy::new(|| Mutex::new(vec![String::new(); 20]));
 
 #[tauri::command]
 pub fn on_path_selected(i: usize) {
@@ -64,7 +64,7 @@ pub fn on_path_selected(i: usize) {
         let lock = PATHS.lock();
         
         match lock {
-            Ok(v) => v.get(i).map(|p| p.display_name.clone()),
+            Ok(vec) => vec.get(i).map(|p| p.clone()),
             Err(_) => return,
         }
     };
@@ -74,19 +74,12 @@ pub fn on_path_selected(i: usize) {
         None => return,
     };
 
-    let home = match get_home_dir() {
-        Some(s) => s,
-        None => return,
-    };
-
-    let actual_path = replace_alias_with_home_dir(home, &path);
-
-    let exists = Path::new(&actual_path).try_exists().unwrap_or(false);
+    let exists = Path::new(&path).try_exists().unwrap_or(false);
     if !exists {
         return;
     }
 
-    let command = HOT_KEYS.on_path_selected.replace("$PATH", &actual_path);
+    let command = HOT_KEYS.on_path_selected.replace("$PATH", &path);
     spawn_command(&command);
 }
 
@@ -108,24 +101,21 @@ pub fn match_file_paths(base: &str) -> Vec<ClientCommand> {
 
     let entries = glob(pattern.as_str());
 
-    let paths = match entries {
+    match entries {
         Ok(paths) => client_commands_from_paths(paths, home),
         Err(_) => vec![],
-    };
-
-    let vec = PATHS.lock();
-
-    match vec {
-        Ok(mut v) => {
-            *v = paths;
-            return  v.to_vec();
-        },
-        Err(_) => return vec![],
     }
 }
 
 fn client_commands_from_paths(paths: Paths, home_dir: &String) -> Vec<ClientCommand> {
-    let mut suggestions: Vec<ClientCommand> = Vec::new();
+    let mut suggestions: Vec<ClientCommand> = vec![];
+
+    let mut cached = match PATHS.lock() {
+        Ok(v) => v,
+        Err(_) => return suggestions,
+    };
+
+    cached.clear();
 
     let mut i = 0;
 
@@ -134,7 +124,11 @@ fn client_commands_from_paths(paths: Paths, home_dir: &String) -> Vec<ClientComm
             let as_string = path.to_str();
 
             let value = match as_string {
-                Some(v) => replace_home_dir_with_alias(home_dir, v) + if path.is_dir() {"/"} else {""},
+                Some(v) => {
+                    let absolute = v.to_string() + if path.is_dir() {"/"} else {""};
+                    cached.push(absolute.clone());
+                    replace_home_dir_with_alias(home_dir, &absolute)
+                },
                 None => continue,
             };
 

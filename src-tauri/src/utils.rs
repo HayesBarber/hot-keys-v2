@@ -46,10 +46,6 @@ pub fn replace_home_dir_with_alias(home_dir: &String, path: &str) -> String {
   path.replacen(home_dir, "~/", 1)
 }
 
-pub fn replace_alias_with_home_dir(home_dir: &String, path: &str) -> String {
-  path.replacen("~/", home_dir, 1)
-}
-
 pub fn strip_home_alias(path: &str) -> Chars {
   let mut chars = path.chars();
   if path.starts_with("~/") {
