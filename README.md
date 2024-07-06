@@ -5,7 +5,7 @@
 
 # Hot-Keys-V2 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/hayesbarber/hot-keys-v2/total)
 
-### Map commands to keyboard shortcuts (or execute them throught the UI)
+### Map commands to keyboard shortcuts (or execute them through the UI)
 
 ## Built with
 
