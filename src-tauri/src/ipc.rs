@@ -115,7 +115,7 @@ fn client_commands_from_paths(paths: Paths, home_dir: &String) -> Vec<ClientComm
         Err(_) => return suggestions,
     };
 
-    cached.clear();
+    *cached = vec![];
 
     let mut i = 0;
 
