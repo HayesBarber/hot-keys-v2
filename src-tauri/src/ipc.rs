@@ -109,7 +109,7 @@ pub fn match_file_paths(base: &str) -> Vec<ClientCommand> {
     let entries = glob(pattern.as_str());
 
     let paths = match entries {
-        Ok(paths) => string_array_from_paths(paths, home),
+        Ok(paths) => client_commands_from_paths(paths, home),
         Err(_) => vec![],
     };
 
@@ -124,7 +124,7 @@ pub fn match_file_paths(base: &str) -> Vec<ClientCommand> {
     }
 }
 
-fn string_array_from_paths(paths: Paths, home_dir: &String) -> Vec<ClientCommand> {
+fn client_commands_from_paths(paths: Paths, home_dir: &String) -> Vec<ClientCommand> {
     let mut suggestions: Vec<ClientCommand> = Vec::new();
 
     let mut i = 0;
