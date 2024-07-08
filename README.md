@@ -10,6 +10,7 @@
 ## Built with
 
 - [**Tauri**](https://tauri.app)
+- [**Vite**](https://vitejs.dev)
 - [**React**](https://react.dev)
 - [**shadcn/ui**](https://ui.shadcn.com)
 - [**cmdk**](https://github.com/pacocoursey/cmdk)
