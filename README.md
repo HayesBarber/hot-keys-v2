@@ -24,7 +24,7 @@ The `toggleUI` field is for the showing and hiding the UI.
 
 The `onPathSelected` field is a command that will run when a path is selected, replacing occurrences of `$PATH` with the selected path. Your home directory will act as the base for this feature.
 
-The `commands` field is an array of objects. The `hotKey` field is optional if you do not want to take up a keyboard shortcut, and is represented by a combination of keys separated by the '+' symbol.
+The `commands` field is an array of objects. The `hotKey` field is optional if you do not want to take up a keyboard shortcut.
 
 I did not have much luck finding tauri documentation for valid key combos, but here seems to be the code to parse an accelerator: https://docs.rs/tao/0.16.9/src/tao/accelerator.rs.html#309
 
