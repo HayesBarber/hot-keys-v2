@@ -2,7 +2,7 @@
 
 <img src="src-tauri/icons/Square310x310Logo.png" align="right" alt="Icon" height="150 px"/>
 
-Hot Keys lets you map CLI commands to keyboard shortcuts for quick execution. It features a Spotlight-style UI for searching and running commands efficiently.
+Hot Keys is a lightweight productivity tool that lets you map keyboard shortcuts to CLI commands. It features a Spotlight-style UI for quickly searching and executing commands.
 
 - Map keyboard shortcuts to CLI commands.
 - Search and execute commands with a Spotlight-like UI.
