@@ -57,6 +57,7 @@ I did not have much luck finding tauri documentation for valid key combos, but h
 ## Built with
 
 - [**Tauri**](https://tauri.app)
+- [**Vite**](https://vitejs.dev)
 - [**React**](https://react.dev)
 - [**shadcn/ui**](https://ui.shadcn.com)
 - [**cmdk**](https://github.com/pacocoursey/cmdk)
