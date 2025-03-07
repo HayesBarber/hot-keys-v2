@@ -4,7 +4,7 @@ Hot Keys is a lightweight productivity tool that lets you map keyboard shortcuts
 
 - Map keyboard shortcuts to CLI commands.
 - Search and execute commands with a Spotlight-like UI.
-- Start typing ~ or / to input a path, which is passed to a `onPathSelected` command.
+- Start typing ~ or / to input a path starting from your home directory, this path is passed to a `onPathSelected` command.
 
 <p align="center">
   <img src="src/assets/ui-image.png" alt="UI" height="275px"/>
@@ -22,7 +22,7 @@ The `theme` field is for the UI-Theme. Options are `light` and `dark`.
 
 The `toggleUI` field is for the showing and hiding the UI.
 
-The `onPathSelected` field is a command that will run when a path is selected, replacing occurrences of `$PATH` with the selected path. Your home directory will act as the base for this feature.
+The `onPathSelected` field is a command that will run when a path is selected, replacing occurrences of `$PATH` with the selected path.
 
 The `commands` field is an array of objects. The `hotKey` field is optional if you do not want to take up a keyboard shortcut.
 
