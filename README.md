@@ -1,6 +1,4 @@
-# Hot-Keys-V2 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/hayesbarber/hot-keys-v2/total)
-
-<img src="src-tauri/icons/Square310x310Logo.png" align="right" alt="Icon" height="150 px"/>
+# Hot-Keys ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/hayesbarber/hot-keys-v2/total)
 
 Hot Keys is a lightweight productivity tool that lets you map keyboard shortcuts to CLI commands. It features a Spotlight-style UI for quickly searching and executing commands.
 
