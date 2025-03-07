@@ -4,7 +4,7 @@ Hot Keys is a lightweight productivity tool that lets you map keyboard shortcuts
 
 - Map keyboard shortcuts to CLI commands.
 - Search and execute commands with a Spotlight-like UI.
-- Start typing ~ or / to input a path starting from your home directory, this path is passed to a `onPathSelected` command.
+- Start typing ~ or / to input a path starting from your home directory. When selected, this path is passed to a `onPathSelected` command.
 
 <p align="center">
   <img src="src/assets/ui-image.png" alt="UI" height="275px"/>
